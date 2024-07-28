@@ -1,0 +1,25 @@
+﻿
+
+
+ protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json")
+            .Build();
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+        }
+
+
+
+
+
+        select CONCAT('QrtCase_', COLUMN_NAME)
+from INFORMATION_SCHEMA.COLUMNS 
+where TABLE_NAME = 'QrtCase'
+
+
+Class names always start w capital. 
+Field names are camelcase. 
+Constants are all caps.l with underscores.  
+Variables are camel case. That is naming convention for .net

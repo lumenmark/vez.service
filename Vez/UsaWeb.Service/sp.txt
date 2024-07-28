@@ -1,0 +1,59 @@
+﻿-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+create PROCEDURE dbo.sp_GetSS_RawResult
+	@searchValue varchar(256) = NULL,
+	@date varchar(50) = 'FUTURE',
+	@status varchar(50) = NULL,
+	@orderBy varchar(100) = 'patient_first_name'
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	if(len(@searchValue) = 0)
+		set @searchValue = NULL
+
+	--if(len(@status) = 0)
+		--set @status = NULL
+
+    SELECT *  FROM SurgicalScheduleRaw where 
+	(
+		@searchValue IS NULL Or
+		concat(patient_last_name, patient_last_name) like '%' + @searchValue + '%' 
+		or mrn like '%' + @searchValue + '%' or FIN like '%' + @searchValue + '%' 
+	)
+	AND ((@date = 'FUTURE' and apt_dt_tm > CURRENT_TIMESTAMP) OR (@date = 'PAST' and apt_dt_tm < CURRENT_TIMESTAMP))
+ 	AND (@status = 'CANCEL' OR cancel_dt_tm is not null)
+	order by 
+	case when @orderBy= 'surg_case_nbr' then surg_case_nbr end,
+	case when @orderBy= 'MRN' then MRN end,
+	case when @orderBy= 'FIN' then FIN end,
+	case when @orderBy= 'patient_last_name' then patient_last_name end,
+	case when @orderBy= 'pat_addr1' then pat_addr1 end,
+	case when @orderBy= 'pat_addr_city' then pat_addr_city end,
+	case when @orderBy= 'pat_addr_zip' then pat_addr_zip end,
+	case when @orderBy= 'patient_email' then patient_email end,
+	case when @orderBy= 'PCR' then PCR end,
+	case when @orderBy= 'apt_dt_tm' then apt_dt_tm end,
+	case when @orderBy= 'dept' then dept end	
+END
+GO

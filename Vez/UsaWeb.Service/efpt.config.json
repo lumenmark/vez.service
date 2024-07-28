@@ -1,0 +1,165 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "Usaweb_DevContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": true,
+   "ModelNamespace": null,
+   "OutputContextPath": "Data",
+   "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "UsaWeb.Service",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "[dbo].[Application]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ApplicationMember]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ApplicationMemberAssigned]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Asset]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[AssetLocation]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Batch]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Log]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Member]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Note]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PatientRound]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PrAnnualMemberSession]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PrMemberGoal]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PrMemberGoalHistory]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PrTeamMember]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PrTeamReferral]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QrtCase]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QrtCaseExtended]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SafetyEvent]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SafetyEventItem]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SmileFeedback]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SurgicalScheduleCall]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SurgicalScheduleExtended]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SurgicalScheduleRaw]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Word]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[WordResponse]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[WordResponseRaw]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[sp_GetSS_CallsByMrn]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[sp_GetSS_RawResult]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[sp_GetSS_RawResultByMrn]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[sp_GetWordsByFilter]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[sp_GetWordsPieByFilter]",
+         "ObjectType": 1
+      }
+   ],
+   "UiHint": "ec2amaz-0o1fqmk.UsaWeb_Dev.dbo",
+   "UncountableWords": null,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": true,
+   "UseDateOnlyTimeOnly": false,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": false,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false
+}
