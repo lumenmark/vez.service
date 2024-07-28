@@ -1,8 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Configuration;
 using System.Text;
 using UsaWeb.Service;
+using UsaWeb.Service.Data;
+using UsaWeb.Service.Features.SurgicalSiteInfection.Abstractions;
+using UsaWeb.Service.Features.SurgicalSiteInfection.Implementations;
 using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,6 +67,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddMemoryCache();
+
+builder.Services.AddDbContext<Usaweb_DevContext>(options =>
+    options.UseSqlServer(configuration.GetSection("ConnectionStrings:DefaultConnection").ToString()));
+builder.Services.AddScoped<ISurgicalSiteInfectionService, SurgicalSiteInfectionService>();
+builder.Services.AddScoped<ISurgicalSiteInfectionRepository, SurgicalSiteInfectionRepository>();
 
 var app = builder.Build();
 

@@ -45,6 +45,7 @@ namespace UsaWeb.Service.Data
         public virtual DbSet<Word> Word { get; set; }
         public virtual DbSet<WordResponse> WordResponse { get; set; }
         public virtual DbSet<WordResponseRaw> WordResponseRaw { get; set; }
+        public virtual DbSet<SurgicalSiteInfection> SurgicalSiteInfections { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -199,6 +200,12 @@ namespace UsaWeb.Service.Data
             {
                 entity.HasKey(e => e.Word1)
                     .HasName("PK_word");
+            });
+
+            modelBuilder.Entity<SurgicalSiteInfection>(entity =>
+            {
+                entity.Property(e => e.SurgicalSiteInfectionId).ValueGeneratedOnAdd();
+                entity.Property(e => e.Nhsn).IsFixedLength();
             });
 
             OnModelCreatingGeneratedProcedures(modelBuilder);
