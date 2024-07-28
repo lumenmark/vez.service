@@ -24,12 +24,12 @@ jobs:
       - name: Build UsaWeb.Service
         shell: cmd
         run: |
-          dotnet build UsaWeb.Service/UsaWeb.Service.csproj --configuration Release
+          dotnet build Vez/UsaWeb.Service/UsaWeb.Service.csproj --configuration Release
       
       # Publish projects if tests pass
       - name: Publish UsaWeb.Service
         shell: cmd
-        run: dotnet publish UsaWeb.Service/UsaWeb.Service.csproj -c Release -o .\publish\UsaWebService
+        run: dotnet publish Vez/UsaWeb.Service/UsaWeb.Service.csproj -c Release -o .\publish\UsaWebService
         
       # Deploy if all previous steps succeed
       - name: Deploy UsaWeb.Service to IIS
