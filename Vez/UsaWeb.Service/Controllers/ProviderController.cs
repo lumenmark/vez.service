@@ -36,13 +36,14 @@ namespace UsaWeb.Service.Controllers
         [HttpGet("/providerInsight/providerInsightSummary")]
         public IActionResult Get(string year, string providerName, string hasCaseReviewMortality,
             string hasCaseReviewMorbidity, string hasSafetyEvent, string hasProfConduct, 
-            string pgPercentile, string totalColor, string providerInsightSummaryId, string npi, string hasCaseReview)
+            string pgPercentile, string totalColor, string providerInsightSummaryId, string npi, string hasCaseReview, bool? hasSurgicalSiteInfection)
         {
             string hasCaseReviewMortality_sql = string.Empty;
             string hasCaseReviewMorbidity_sql = string.Empty;
             string hasCaseReview_sql = string.Empty;
             string hasSafetyEvent_sql = string.Empty;
             string hasProfConduct_sql = string.Empty;
+            string hasSurgicalSiteInfection_sql = string.Empty;
 
             if (hasCaseReviewMortality == "true")
                 hasCaseReviewMortality_sql = "And mortalityReviewCount > 0 ";
@@ -68,6 +69,11 @@ namespace UsaWeb.Service.Controllers
             else if (hasProfConduct == "false")
                 hasProfConduct_sql = "And profConductCount = 0 ";
 
+            if (hasSurgicalSiteInfection == true)
+                hasSurgicalSiteInfection_sql = "And surgicalSiteInfectionCount > 0 ";
+            else if (hasSurgicalSiteInfection == false)
+                hasSurgicalSiteInfection_sql = "And surgicalSiteInfectionCount = 0 ";
+
             string query = string.Empty;
             IDictionary<string, string> d = new Dictionary<string, string>();
 
@@ -88,7 +94,7 @@ namespace UsaWeb.Service.Controllers
                     "Where (@year IS NULL OR year in (select splitdata from dbo.fnSplitString(@year, ','))) " +
                     "And (@providerName IS NULL OR providerName like '%' + @providerName + '%' ) " +
                     hasCaseReviewMortality_sql + hasCaseReviewMorbidity_sql + hasCaseReview_sql + 
-                    hasSafetyEvent_sql + hasProfConduct_sql +
+                    hasSafetyEvent_sql + hasProfConduct_sql + hasSurgicalSiteInfection_sql +
                     //"And (@hasCaseReviewMortality IS NULL OR mortalityReviewCount > 0 ) " +
                     //"And (@hasCaseReviewMorbidity IS NULL OR morbidityReviewCount > 0 ) " +
                     //"And (@hasSafetyEvent IS NULL OR safetyEventCount > 0 ) " +
