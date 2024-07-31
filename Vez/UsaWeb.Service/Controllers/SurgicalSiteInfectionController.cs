@@ -29,20 +29,24 @@ namespace UsaWeb.Service.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<SurgicalSiteInfection>>> GetAll(
             [FromQuery] int? surgicalSiteInfectionId = null,
-            [FromQuery] string patientFirstName = null,
-            [FromQuery] string patientLastName = null,
-            [FromQuery] string sex = null,
-            [FromQuery] DateTime? createTs = null)
+            [FromQuery] List<string> statusList = null,
+            [FromQuery] DateTime? eventDtStart = null,
+            [FromQuery] DateTime? eventDtEnd = null,
+            [FromQuery] string providerName = null,
+            [FromQuery] List<string> surgeryList = null,
+            [FromQuery] List<string> woundClassificationList = null)
         {
             try
             {
                 var request = new SurgicalSiteInfectionRequest
                 {
                     SurgicalSiteInfectionId = surgicalSiteInfectionId,
-                    PatientFirstName = patientFirstName,
-                    PatientLastName = patientLastName,
-                    Sex = sex,
-                    CreateTs = createTs
+                    StatusList = statusList,
+                    EventDtStart = eventDtStart,
+                    EventDtEnd = eventDtEnd,
+                    ProviderName = providerName,
+                    SurgeryList = surgeryList,
+                    WoundClassificationList = woundClassificationList
                 };
 
                 var result = await _service.GetSurgicalSiteInfectionsAsync(request);
@@ -54,10 +58,11 @@ namespace UsaWeb.Service.Controllers
             }
             catch (Exception ex)
             {
-                DBHelper.LogError($"SurgicalSiteInfectionController.GetAll {DateTime.UtcNow} - {ex.Message} - InnderException : {ex.InnerException} ");
-                return StatusCode(500, new { message = "An error occurred while processing your request."});
+                DBHelper.LogError($"SurgicalSiteInfectionController.GetAll {DateTime.UtcNow} - {ex.Message} - InnerException : {ex.InnerException} ");
+                return StatusCode(500, new { message = "An error occurred while processing your request." });
             }
         }
+
 
         /// <summary>
         /// Creates a new Surgical Site Infection record.

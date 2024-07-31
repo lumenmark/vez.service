@@ -1,41 +1,87 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System.Data.Common;
 using UsaWeb.Service.Data;
 using UsaWeb.Service.Features.Extensions;
 using UsaWeb.Service.Features.Requests;
+using UsaWeb.Service.Features.Responses;
 using UsaWeb.Service.Features.SurgicalSiteInfection.Abstractions;
 using UsaWeb.Service.ViewModels;
 
 namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
 {
-    public class SurgicalSiteInfectionRepository : ISurgicalSiteInfectionRepository
+    public class SurgicalSiteInfectionRepository(Usaweb_DevContext context) : ISurgicalSiteInfectionRepository
     {
-        private readonly Usaweb_DevContext _context;
+        private readonly Usaweb_DevContext _context = context;
 
-        public SurgicalSiteInfectionRepository(Usaweb_DevContext context)
+        public async Task<IEnumerable<SurgicalSiteInfectionResponse>> GetSurgicalSiteInfectionsAsync(SurgicalSiteInfectionRequest request)
         {
-            _context = context;
-        }
+            var query = @"
+                SELECT ssi.*, m.FullName, re.npi, re.nameWithDegree, re.resignedDt 
+                FROM surgicalsiteinfection ssi 
+                LEFT JOIN member m ON ssi.memberIdAssigned = m.memberId 
+                LEFT JOIN (
+                    SELECT DISTINCT npi, nameWithDegree, resignedDt 
+                    FROM reappointment
+                ) re ON re.npi = ssi.npiSurgeon1
+                WHERE 1=1";
 
-        public async Task<IEnumerable<Models.SurgicalSiteInfection>> GetSurgicalSiteInfectionsAsync(SurgicalSiteInfectionRequest request)
-        {
-            var query = _context.SurgicalSiteInfections.AsQueryable();
+            var parameters = new List<SqlParameter>();
 
-            if (request.SurgicalSiteInfectionId.HasValue)
-                query = query.Where(x => x.SurgicalSiteInfectionId == request.SurgicalSiteInfectionId.Value);
+            AddSqlParameter(parameters, "@SurgicalSiteInfectionId", request.SurgicalSiteInfectionId);
+            AddSqlParameter(parameters, "@EventDtStart", request.EventDtStart);
+            AddSqlParameter(parameters, "@EventDtEnd", request.EventDtEnd);
+            AddSqlParameter(parameters, "@ProviderName", $"%{request.ProviderName}%");
 
-            if (!string.IsNullOrEmpty(request.PatientFirstName))
-                query = query.Where(x => x.PatientFirstName.Contains(request.PatientFirstName));
+            if (request.StatusList != null && request.StatusList.Any())
+            {
+                query += " AND ssi.status IN (" + string.Join(",", request.StatusList.Select((s, i) => $"@statusList{i}")) + ")";
+                for (int i = 0; i < request.StatusList.Count; i++)
+                {
+                    AddSqlParameter(parameters, $"@statusList{i}", request.StatusList[i]);
+                }
+            }
 
-            if (!string.IsNullOrEmpty(request.PatientLastName))
-                query = query.Where(x => x.PatientLastName.Contains(request.PatientLastName));
+            if (request.SurgeryList != null && request.SurgeryList.Any())
+            {
+                query += " AND ssi.surgicalProcedure IN (" + string.Join(",", request.SurgeryList.Select((s, i) => $"@surgeryList{i}")) + ")";
+                for (int i = 0; i < request.SurgeryList.Count; i++)
+                {
+                    AddSqlParameter(parameters, $"@surgeryList{i}", request.SurgeryList[i]);
+                }
+            }
 
-            if (!string.IsNullOrEmpty(request.Sex))
-                query = query.Where(x => x.Sex == request.Sex);
+            if (request.WoundClassificationList != null && request.WoundClassificationList.Any())
+            {
+                query += " AND ssi.woundClassification IN (" + string.Join(",", request.WoundClassificationList.Select((s, i) => $"@woundClassificationList{i}")) + ")";
+                for (int i = 0; i < request.WoundClassificationList.Count; i++)
+                {
+                    AddSqlParameter(parameters, $"@woundClassificationList{i}", request.WoundClassificationList[i]);
+                }
+            }
 
-            if (request.CreateTs.HasValue)
-                query = query.Where(x => x.CreateTs == request.CreateTs.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59));
+            query += " ORDER BY ssi.surgicalSiteInfectionId DESC";
 
-            return await query.ToListAsync();
+            var results = new List<SurgicalSiteInfectionResponse>();
+
+            using (var connection = _context.Database.GetDbConnection())
+            {
+                await connection.OpenAsync();
+                using var command = connection.CreateCommand();
+                command.CommandText = query;
+                command.Parameters.AddRange(parameters.ToArray());
+
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        SurgicalSiteInfectionResponse response = await CreateSurgicalSiteInfectionResponseFromDbResult(reader);
+                        results.Add(response);
+                    }
+                }
+            }
+
+            return results;
         }
 
         public async Task<Models.SurgicalSiteInfection> CreateSurgicalSiteInfectionAsync(SurgicalSiteInfectionViewModel model)
@@ -72,6 +118,55 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
             _context.SurgicalSiteInfections.Update(entity);
             await _context.SaveChangesAsync();
             return entity;
+        }
+
+        private static async Task<SurgicalSiteInfectionResponse> CreateSurgicalSiteInfectionResponseFromDbResult(DbDataReader reader)
+        {
+            return new SurgicalSiteInfectionResponse
+            {
+                SurgicalSiteInfectionId = await reader.GetFieldValueAsync<int>(reader.GetOrdinal("surgicalSiteInfectionId")),
+                Fin = await reader.IsDBNullAsync(reader.GetOrdinal("fin")) ? null : await reader.GetFieldValueAsync<int>(reader.GetOrdinal("fin")),
+                Mrn = await reader.IsDBNullAsync(reader.GetOrdinal("mrn")) ? null : await reader.GetFieldValueAsync<int>(reader.GetOrdinal("mrn")),
+                PatientFirstName = await reader.IsDBNullAsync(reader.GetOrdinal("patientFirstName")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("patientFirstName")),
+                PatientLastMiddleName = await reader.IsDBNullAsync(reader.GetOrdinal("patientLastMiddleName")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("patientLastMiddleName")),
+                PatientLastName = await reader.IsDBNullAsync(reader.GetOrdinal("patientLastName")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("patientLastName")),
+                Dob = await reader.IsDBNullAsync(reader.GetOrdinal("dob")) ? null : DateOnly.FromDateTime(await reader.GetFieldValueAsync<DateTime>(reader.GetOrdinal("dob"))),
+                Sex = await reader.IsDBNullAsync(reader.GetOrdinal("sex")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("sex")),
+                AdmitDt = await reader.IsDBNullAsync(reader.GetOrdinal("admitDt")) ? null : DateOnly.FromDateTime(await reader.GetFieldValueAsync<DateTime>(reader.GetOrdinal("admitDt"))),
+                AdmitNote = await reader.IsDBNullAsync(reader.GetOrdinal("admitNote")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("admitNote")),
+                SurgicalProcedure = await reader.IsDBNullAsync(reader.GetOrdinal("surgicalProcedure")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("surgicalProcedure")),
+                OutPatientInpatient = await reader.IsDBNullAsync(reader.GetOrdinal("outPatientInpatient")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("outPatientInpatient")),
+                SurgeryDt = await reader.IsDBNullAsync(reader.GetOrdinal("surgeryDt")) ? null : DateOnly.FromDateTime(await reader.GetFieldValueAsync<DateTime>(reader.GetOrdinal("surgeryDt"))),
+                EventDt = await reader.IsDBNullAsync(reader.GetOrdinal("eventDt")) ? null : DateOnly.FromDateTime(await reader.GetFieldValueAsync<DateTime>(reader.GetOrdinal("eventDt"))),
+                SurgicalSiteInfectionType = await reader.IsDBNullAsync(reader.GetOrdinal("surgicalSiteInfectionType")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("surgicalSiteInfectionType")),
+                IsPreOpAntibioticAdmin = await reader.IsDBNullAsync(reader.GetOrdinal("isPreOpAntibioticAdmin")) ? null : await reader.GetFieldValueAsync<bool>(reader.GetOrdinal("isPreOpAntibioticAdmin")),
+                SkinPrep = await reader.IsDBNullAsync(reader.GetOrdinal("skinPrep")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("skinPrep")),
+                NpiSurgeon1 = await reader.IsDBNullAsync(reader.GetOrdinal("npiSurgeon1")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("npiSurgeon1")),
+                NpiSurgeon2 = await reader.IsDBNullAsync(reader.GetOrdinal("npiSurgeon2")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("npiSurgeon2")),
+                OrRoom = await reader.IsDBNullAsync(reader.GetOrdinal("orRoom")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("orRoom")),
+                WoundClassification = await reader.IsDBNullAsync(reader.GetOrdinal("woundClassification")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("woundClassification")),
+                Nhsn = await reader.IsDBNullAsync(reader.GetOrdinal("nhsn")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("nhsn")),
+                NoteInline = await reader.IsDBNullAsync(reader.GetOrdinal("noteInline")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("noteInline")),
+                Note = await reader.IsDBNullAsync(reader.GetOrdinal("note")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("note")),
+                MemberIdCreatedBy = await reader.IsDBNullAsync(reader.GetOrdinal("memberIdCreatedBy")) ? null : await reader.GetFieldValueAsync<int>(reader.GetOrdinal("memberIdCreatedBy")),
+                MemberIdAssigned = await reader.IsDBNullAsync(reader.GetOrdinal("memberIdAssigned")) ? null : await reader.GetFieldValueAsync<int>(reader.GetOrdinal("memberIdAssigned")),
+                CreateTs = await reader.IsDBNullAsync(reader.GetOrdinal("createTs")) ? null : await reader.GetFieldValueAsync<DateTime>(reader.GetOrdinal("createTs")),
+                Temp1 = await reader.IsDBNullAsync(reader.GetOrdinal("temp1")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("temp1")),
+                Temp2 = await reader.IsDBNullAsync(reader.GetOrdinal("temp2")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("temp2")),
+                Status = await reader.IsDBNullAsync(reader.GetOrdinal("status")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("status")),
+                FullName = await reader.IsDBNullAsync(reader.GetOrdinal("FullName")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("FullName")),
+                Npi = await reader.IsDBNullAsync(reader.GetOrdinal("npi")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("npi")),
+                NameWithDegree = await reader.IsDBNullAsync(reader.GetOrdinal("nameWithDegree")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("nameWithDegree")),
+                ResignedDt = await reader.IsDBNullAsync(reader.GetOrdinal("resignedDt")) ? null : await reader.GetFieldValueAsync<DateTime>(reader.GetOrdinal("resignedDt"))
+            };
+        }
+
+        private static void AddSqlParameter(List<SqlParameter> parameters, string paramName, object value)
+        {
+            if (value != null)
+            {
+                parameters.Add(new SqlParameter(paramName, value));
+            }
         }
     }
 }

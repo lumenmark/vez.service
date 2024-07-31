@@ -3,9 +3,11 @@
     public class SurgicalSiteInfectionRequest
     {
         public int? SurgicalSiteInfectionId { get; set; }
-        public string PatientFirstName { get; set; }
-        public string PatientLastName { get; set; }
-        public string Sex { get; set; }
-        public DateTime? CreateTs { get; set; }
+        public List<string> StatusList { get; set; }
+        public DateTime? EventDtStart { get; set; }
+        public DateTime? EventDtEnd { get; set; }
+        public string ProviderName { get; set; }
+        public List<string> SurgeryList { get; set; }
+        public List<string> WoundClassificationList { get; set; }
     }
 }

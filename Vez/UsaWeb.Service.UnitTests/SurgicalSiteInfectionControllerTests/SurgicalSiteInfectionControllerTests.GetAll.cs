@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using UsaWeb.Service.Features.Requests;
+using UsaWeb.Service.Features.Responses;
 using UsaWeb.Service.Models;
 using Xunit;
 
@@ -12,7 +13,7 @@ namespace UsaWeb.Service.UnitTests.SurgicalSiteInfectionControllerTests
         public async Task GetAll_ReturnsOkResult_WithExpectedData()
         {
             // Arrange
-            var expectedData = new List<SurgicalSiteInfection>
+            var expectedData = new List<SurgicalSiteInfectionResponse>
             {
                 new() { SurgicalSiteInfectionId = 1, PatientFirstName = "LJ", PatientLastName = "LI" },
                 new() { SurgicalSiteInfectionId = 2, PatientFirstName = "Abdelilah", PatientLastName = "Ben" }

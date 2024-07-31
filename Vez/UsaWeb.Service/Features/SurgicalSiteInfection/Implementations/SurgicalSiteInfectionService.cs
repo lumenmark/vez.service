@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using UsaWeb.Service.Features.Extensions;
 using UsaWeb.Service.Features.Requests;
+using UsaWeb.Service.Features.Responses;
 using UsaWeb.Service.Features.SurgicalSiteInfection.Abstractions;
 using UsaWeb.Service.ViewModels;
 
@@ -15,7 +16,7 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
             _repository = repository;
         }
 
-        public async Task<IEnumerable<Models.SurgicalSiteInfection>> GetSurgicalSiteInfectionsAsync(SurgicalSiteInfectionRequest request)
+        public async Task<IEnumerable<SurgicalSiteInfectionResponse>> GetSurgicalSiteInfectionsAsync(SurgicalSiteInfectionRequest request)
         {
             return await _repository.GetSurgicalSiteInfectionsAsync(request);
         }
