@@ -28,8 +28,8 @@ namespace UsaWeb.Service.Features.Extensions
                 SurgicalSiteInfectionType = entity.SurgicalSiteInfectionType,
                 IsPreOpAntibioticAdmin = entity.IsPreOpAntibioticAdmin,
                 SkinPrep = entity.SkinPrep,
-                SurgeonNpi1 = entity.SurgeonNpi1,
-                SurgeonNpi2 = entity.SurgeonNpi2,
+                NpiSurgeon1 = entity.NpiSurgeon1,
+                NpiSurgeon2 = entity.NpiSurgeon2,
                 OrRoom = entity.OrRoom,
                 WoundClassification = entity.WoundClassification,
                 Nhsn = entity.Nhsn,
@@ -61,8 +61,8 @@ namespace UsaWeb.Service.Features.Extensions
             entity.SurgicalSiteInfectionType = model.SurgicalSiteInfectionType;
             entity.IsPreOpAntibioticAdmin = model.IsPreOpAntibioticAdmin;
             entity.SkinPrep = model.SkinPrep;
-            entity.SurgeonNpi1 = model.SurgeonNpi1;
-            entity.SurgeonNpi2 = model.SurgeonNpi2;
+            entity.NpiSurgeon1 = model.NpiSurgeon1;
+            entity.NpiSurgeon2 = model.NpiSurgeon2;
             entity.OrRoom = model.OrRoom;
             entity.WoundClassification = model.WoundClassification;
             entity.Nhsn = model.Nhsn;
@@ -97,8 +97,8 @@ namespace UsaWeb.Service.Features.Extensions
                 SurgicalSiteInfectionType = model.SurgicalSiteInfectionType,
                 IsPreOpAntibioticAdmin = model.IsPreOpAntibioticAdmin,
                 SkinPrep = model.SkinPrep,
-                SurgeonNpi1 = model.SurgeonNpi1,
-                SurgeonNpi2 = model.SurgeonNpi2,
+                NpiSurgeon1 = model.NpiSurgeon1,
+                NpiSurgeon2 = model.NpiSurgeon2,
                 OrRoom = model.OrRoom,
                 WoundClassification = model.WoundClassification,
                 Nhsn = model.Nhsn,

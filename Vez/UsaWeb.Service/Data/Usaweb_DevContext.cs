@@ -204,8 +204,10 @@ namespace UsaWeb.Service.Data
 
             modelBuilder.Entity<SurgicalSiteInfection>(entity =>
             {
-                entity.Property(e => e.SurgicalSiteInfectionId).ValueGeneratedOnAdd();
+                entity.HasKey(e => e.SurgicalSiteInfectionId).HasName("PK__Surgical__50B122C8AA7EC57D");
+
                 entity.Property(e => e.Nhsn).IsFixedLength();
+                entity.Property(e => e.Status).HasComment("NEW; IN_PROGRESS; COMPLETE");
             });
 
             OnModelCreatingGeneratedProcedures(modelBuilder);

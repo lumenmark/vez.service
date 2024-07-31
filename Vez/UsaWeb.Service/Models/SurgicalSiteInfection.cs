@@ -10,7 +10,6 @@ namespace UsaWeb.Service.Models;
 public partial class SurgicalSiteInfection
 {
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("surgicalSiteInfectionId")]
     public int SurgicalSiteInfectionId { get; set; }
 
@@ -80,11 +79,15 @@ public partial class SurgicalSiteInfection
     [Unicode(false)]
     public string SkinPrep { get; set; }
 
-    [Column("surgeonNpi1")]
-    public int? SurgeonNpi1 { get; set; }
+    [Column("npiSurgeon1")]
+    [StringLength(50)]
+    [Unicode(false)]
+    public string NpiSurgeon1 { get; set; }
 
-    [Column("surgeonNpi2")]
-    public int? SurgeonNpi2 { get; set; }
+    [Column("npiSurgeon2")]
+    [StringLength(50)]
+    [Unicode(false)]
+    public string NpiSurgeon2 { get; set; }
 
     [Column("orRoom")]
     [StringLength(50)]
@@ -128,4 +131,12 @@ public partial class SurgicalSiteInfection
     [StringLength(4000)]
     [Unicode(false)]
     public string Temp2 { get; set; }
+
+    /// <summary>
+    /// NEW; IN_PROGRESS; COMPLETE
+    /// </summary>
+    [Column("status")]
+    [StringLength(20)]
+    [Unicode(false)]
+    public string Status { get; set; }
 }

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UsaWeb.Service.ViewModels
 {
@@ -38,9 +40,9 @@ namespace UsaWeb.Service.ViewModels
 
         public string SkinPrep { get; set; }
 
-        public int? SurgeonNpi1 { get; set; }
+        public string NpiSurgeon1 { get; set; }
 
-        public int? SurgeonNpi2 { get; set; }
+        public string NpiSurgeon2 { get; set; }
 
         public string OrRoom { get; set; }
 
