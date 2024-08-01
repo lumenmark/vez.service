@@ -28,10 +28,29 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
 
             var parameters = new List<SqlParameter>();
 
-            AddSqlParameter(parameters, "@SurgicalSiteInfectionId", request.SurgicalSiteInfectionId);
-            AddSqlParameter(parameters, "@EventDtStart", request.EventDtStart);
-            AddSqlParameter(parameters, "@EventDtEnd", request.EventDtEnd);
-            AddSqlParameter(parameters, "@ProviderName", $"%{request.ProviderName}%");
+            if (request.SurgicalSiteInfectionId != null)
+            {
+                query += " AND ssi.surgicalSiteInfectionId = @SurgicalSiteInfectionId";
+                AddSqlParameter(parameters, "@SurgicalSiteInfectionId", request.SurgicalSiteInfectionId);
+            }
+
+            if (request.EventDtStart != null)
+            {
+                query += " AND ssi.eventDt >= @EventDtStart";
+                AddSqlParameter(parameters, "@EventDtStart", request.EventDtStart);
+            }
+
+            if (request.EventDtEnd != null)
+            {
+                query += " AND ssi.eventDt <= @EventDtEnd";
+                AddSqlParameter(parameters, "@EventDtEnd", request.EventDtEnd);
+            }
+
+            if (!string.IsNullOrEmpty(request.ProviderName))
+            {
+                query += " AND m.FullName LIKE @ProviderName";
+                AddSqlParameter(parameters, "@ProviderName", $"%{request.ProviderName}%");
+            }
 
             if (request.StatusList != null && request.StatusList.Any())
             {
