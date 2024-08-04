@@ -39,7 +39,8 @@ namespace UsaWeb.Service.Features.Extensions
                 MemberIdAssigned = entity.MemberIdAssigned,
                 CreateTs = entity.CreateTs,
                 Temp1 = entity.Temp1,
-                Temp2 = entity.Temp2
+                Temp2 = entity.Temp2,
+                Status = entity.Status
             };
         }
 
@@ -73,6 +74,7 @@ namespace UsaWeb.Service.Features.Extensions
             entity.CreateTs = model.CreateTs;
             entity.Temp1 = model.Temp1;
             entity.Temp2 = model.Temp2;
+            entity.Status = model.Status;
         }
 
         public static Models.SurgicalSiteInfection ToEntity(this SurgicalSiteInfectionViewModel model)
@@ -108,7 +110,8 @@ namespace UsaWeb.Service.Features.Extensions
                 MemberIdAssigned = model.MemberIdAssigned,
                 CreateTs = model.CreateTs,
                 Temp1 = model.Temp1,
-                Temp2 = model.Temp2
+                Temp2 = model.Temp2,
+                Status = model.Status
             };
         }
     }

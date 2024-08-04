@@ -63,5 +63,7 @@ namespace UsaWeb.Service.ViewModels
         public string Temp1 { get; set; }
 
         public string Temp2 { get; set; }
+
+        public string Status { get; set; }
     }
 }
