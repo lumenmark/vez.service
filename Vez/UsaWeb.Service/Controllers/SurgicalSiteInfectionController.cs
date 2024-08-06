@@ -34,7 +34,10 @@ namespace UsaWeb.Service.Controllers
             [FromQuery] DateTime? eventDtEnd = null,
             [FromQuery] string providerName = null,
             [FromQuery] string surgery = null,
-            [FromQuery] string woundClassifications = null)
+            [FromQuery] string woundClassifications = null,
+            [FromQuery] string patient = null,
+            [FromQuery] string surgeon = null
+            )
         {
             try
             {
@@ -50,7 +53,9 @@ namespace UsaWeb.Service.Controllers
                     EventDtEnd = eventDtEnd,
                     ProviderName = providerName,
                     SurgeryList = surgeryList,
-                    WoundClassificationList = woundClassificationList
+                    WoundClassificationList = woundClassificationList,
+                    Patient = patient,
+                    Surgeon = surgeon
                 };
 
                 var result = await _service.GetSurgicalSiteInfectionsAsync(request);
@@ -66,7 +71,6 @@ namespace UsaWeb.Service.Controllers
                 return StatusCode(500, new { message = "An error occurred while processing your request." });
             }
         }
-
 
         /// <summary>
         /// Creates a new Surgical Site Infection record.

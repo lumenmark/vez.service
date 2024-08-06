@@ -11,5 +11,7 @@ namespace UsaWeb.Service.Features.Requests
         public string ProviderName { get; set; }
         public List<string> SurgeryList { get; set; }
         public List<string> WoundClassificationList { get; set; }
+        public string Patient { get; set; }
+        public string Surgeon { get; set; }
     }
 }

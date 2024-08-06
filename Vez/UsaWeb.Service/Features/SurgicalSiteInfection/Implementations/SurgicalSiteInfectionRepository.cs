@@ -79,6 +79,30 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
                 }
             }
 
+            // Add filter for Patient
+            if (!string.IsNullOrEmpty(request.Patient))
+            {
+                query += @"
+                    AND (
+                        ssi.patientLastName LIKE @Patient 
+                        OR ssi.patientFirstName LIKE @Patient 
+                        OR ssi.FIN LIKE @Patient 
+                        OR ssi.MRN LIKE @Patient
+                    )";
+                AddSqlParameter(parameters, "@Patient", $"%{request.Patient}%");
+            }
+
+            // Add filter for Surgeon
+            if (!string.IsNullOrEmpty(request.Surgeon))
+            {
+                query += @"
+                    AND (
+                        m.FullName LIKE @Surgeon 
+                        OR re.npi LIKE @Surgeon 
+                    )";
+                AddSqlParameter(parameters, "@Surgeon", $"%{request.Surgeon}%");
+            }
+
             query += " ORDER BY ssi.surgicalSiteInfectionId DESC";
 
             var results = new List<SurgicalSiteInfectionResponse>();
