@@ -29,15 +29,19 @@ namespace UsaWeb.Service.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<SurgicalSiteInfection>>> GetAll(
             [FromQuery] int? surgicalSiteInfectionId = null,
-            [FromQuery] List<string> statusList = null,
+            [FromQuery] string status = null,
             [FromQuery] DateTime? eventDtStart = null,
             [FromQuery] DateTime? eventDtEnd = null,
             [FromQuery] string providerName = null,
-            [FromQuery] List<string> surgeryList = null,
-            [FromQuery] List<string> woundClassificationList = null)
+            [FromQuery] string surgery = null,
+            [FromQuery] string woundClassifications = null)
         {
             try
             {
+                var statusList = !string.IsNullOrEmpty(status) ? [.. status.Split(',')] : new List<string>();
+                var surgeryList = !string.IsNullOrEmpty(surgery) ? [.. surgery.Split(',')] : new List<string>();
+                var woundClassificationList = !string.IsNullOrEmpty(woundClassifications) ? [.. woundClassifications.Split(',')] : new List<string>();
+
                 var request = new SurgicalSiteInfectionRequest
                 {
                     SurgicalSiteInfectionId = surgicalSiteInfectionId,

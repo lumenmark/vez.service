@@ -1,4 +1,6 @@
-﻿namespace UsaWeb.Service.Features.Requests
+﻿using Microsoft.AspNetCore.Http;
+
+namespace UsaWeb.Service.Features.Requests
 {
     public class SurgicalSiteInfectionRequest
     {

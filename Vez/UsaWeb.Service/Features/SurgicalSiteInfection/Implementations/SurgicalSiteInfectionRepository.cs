@@ -57,7 +57,7 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
                 query += " AND ssi.status IN (" + string.Join(",", request.StatusList.Select((s, i) => $"@statusList{i}")) + ")";
                 for (int i = 0; i < request.StatusList.Count; i++)
                 {
-                    AddSqlParameter(parameters, $"@statusList{i}", request.StatusList[i]);
+                    AddSqlParameter(parameters, $"@statusList{i}", request.StatusList[i].Trim());
                 }
             }
 
@@ -66,7 +66,7 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
                 query += " AND ssi.surgicalProcedure IN (" + string.Join(",", request.SurgeryList.Select((s, i) => $"@surgeryList{i}")) + ")";
                 for (int i = 0; i < request.SurgeryList.Count; i++)
                 {
-                    AddSqlParameter(parameters, $"@surgeryList{i}", request.SurgeryList[i]);
+                    AddSqlParameter(parameters, $"@surgeryList{i}", request.SurgeryList[i].Trim());
                 }
             }
 
@@ -75,7 +75,7 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
                 query += " AND ssi.woundClassification IN (" + string.Join(",", request.WoundClassificationList.Select((s, i) => $"@woundClassificationList{i}")) + ")";
                 for (int i = 0; i < request.WoundClassificationList.Count; i++)
                 {
-                    AddSqlParameter(parameters, $"@woundClassificationList{i}", request.WoundClassificationList[i]);
+                    AddSqlParameter(parameters, $"@woundClassificationList{i}", request.WoundClassificationList[i].Trim());
                 }
             }
 
