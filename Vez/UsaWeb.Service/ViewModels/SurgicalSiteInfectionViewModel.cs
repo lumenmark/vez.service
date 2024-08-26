@@ -36,13 +36,13 @@ namespace UsaWeb.Service.ViewModels
 
         public string SurgicalSiteInfectionType { get; set; }
 
-        public bool? IsPreOpAntibioticAdmin { get; set; }
+        public string IsPreOpAntibioticAdmin { get; set; }
 
         public string SkinPrep { get; set; }
 
-        public string NpiSurgeon1 { get; set; }
+        public int? SurgeonNpi1 { get; set; }
 
-        public string NpiSurgeon2 { get; set; }
+        public int? SurgeonNpi2 { get; set; }
 
         public string OrRoom { get; set; }
 

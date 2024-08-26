@@ -1,4 +1,6 @@
-﻿namespace UsaWeb.Service.Features.Responses
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace UsaWeb.Service.Features.Responses
 {
     public class SurgicalSiteInfectionResponse
     {
@@ -17,10 +19,10 @@
         public DateOnly? SurgeryDt { get; set; }
         public DateOnly? EventDt { get; set; }
         public string SurgicalSiteInfectionType { get; set; }
-        public bool? IsPreOpAntibioticAdmin { get; set; }
+        public string IsPreOpAntibioticAdmin { get; set; }
         public string SkinPrep { get; set; }
-        public string NpiSurgeon1 { get; set; }
-        public string NpiSurgeon2 { get; set; }
+        public int? SurgeonNpi1 { get; set; }
+        public int? SurgeonNpi2 { get; set; }
         public string OrRoom { get; set; }
         public string WoundClassification { get; set; }
         public string Nhsn { get; set; }
