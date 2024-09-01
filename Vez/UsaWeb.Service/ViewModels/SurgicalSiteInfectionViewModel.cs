@@ -25,7 +25,6 @@ namespace UsaWeb.Service.ViewModels
         public DateOnly? AdmitDt { get; set; }
 
         public string AdmitNote { get; set; }
-
         public string SurgicalProcedure { get; set; }
 
         public string OutPatientInpatient { get; set; }
@@ -36,13 +35,15 @@ namespace UsaWeb.Service.ViewModels
 
         public string SurgicalSiteInfectionType { get; set; }
 
-        public string IsPreOpAntibioticAdmin { get; set; }
+        public string PreOpAntibioticAdminNote { get; set; }
+
+        public bool? preOpAntibioticAdminYN { get; set; }
 
         public string SkinPrep { get; set; }
 
-        public int? SurgeonNpi1 { get; set; }
+        public string NpiSurgeon1 { get; set; }
 
-        public int? SurgeonNpi2 { get; set; }
+        public string NpiSurgeon2 { get; set; }
 
         public string OrRoom { get; set; }
 

@@ -24,7 +24,7 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
                     SELECT DISTINCT npi, nameWithDegree, resignedDt 
                 FROM reappointment    WHERE 
                     npi IS NOT NULL  -- Exclude NULL values
-                ) re ON TRY_CAST(re.npi AS INT) = ssi.SurgeonNpi1
+                ) re ON re.npi = ssi.NpiSurgeon1
                 WHERE 1=1";
 
             var parameters = new List<SqlParameter>();
@@ -183,10 +183,11 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
                 SurgeryDt = await reader.IsDBNullAsync(reader.GetOrdinal("surgeryDt")) ? null : DateOnly.FromDateTime(await reader.GetFieldValueAsync<DateTime>(reader.GetOrdinal("surgeryDt"))),
                 EventDt = await reader.IsDBNullAsync(reader.GetOrdinal("eventDt")) ? null : DateOnly.FromDateTime(await reader.GetFieldValueAsync<DateTime>(reader.GetOrdinal("eventDt"))),
                 SurgicalSiteInfectionType = await reader.IsDBNullAsync(reader.GetOrdinal("surgicalSiteInfectionType")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("surgicalSiteInfectionType")),
-                IsPreOpAntibioticAdmin = await reader.IsDBNullAsync(reader.GetOrdinal("isPreOpAntibioticAdmin")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("isPreOpAntibioticAdmin")),
+                PreOpAntibioticAdminNote = await reader.IsDBNullAsync(reader.GetOrdinal("preOpAntibioticAdminNote")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("preOpAntibioticAdminNote")),
+                preOpAntibioticAdminYN = await reader.IsDBNullAsync(reader.GetOrdinal("preOpAntibioticAdminYN")) ? null : await reader.GetFieldValueAsync<bool>(reader.GetOrdinal("preOpAntibioticAdminYN")),
                 SkinPrep = await reader.IsDBNullAsync(reader.GetOrdinal("skinPrep")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("skinPrep")),
-                SurgeonNpi1 = await reader.IsDBNullAsync(reader.GetOrdinal("SurgeonNpi1")) ? null : await reader.GetFieldValueAsync<int?>(reader.GetOrdinal("SurgeonNpi1")),
-                SurgeonNpi2 = await reader.IsDBNullAsync(reader.GetOrdinal("SurgeonNpi2")) ? null : await reader.GetFieldValueAsync<int?>(reader.GetOrdinal("SurgeonNpi2")),
+                NpiSurgeon1 = await reader.IsDBNullAsync(reader.GetOrdinal("NpiSurgeon1")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("NpiSurgeon1")),
+                NpiSurgeon2 = await reader.IsDBNullAsync(reader.GetOrdinal("NpiSurgeon2")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("NpiSurgeon2")),
                 OrRoom = await reader.IsDBNullAsync(reader.GetOrdinal("orRoom")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("orRoom")),
                 WoundClassification = await reader.IsDBNullAsync(reader.GetOrdinal("woundClassification")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("woundClassification")),
                 Nhsn = await reader.IsDBNullAsync(reader.GetOrdinal("nhsn")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("nhsn")),

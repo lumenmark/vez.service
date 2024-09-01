@@ -1,4 +1,5 @@
 ﻿using UsaWeb.Service.ViewModels;
+using static Amazon.S3.Util.S3EventNotification;
 
 
 namespace UsaWeb.Service.Features.Extensions
@@ -26,10 +27,7 @@ namespace UsaWeb.Service.Features.Extensions
                 SurgeryDt = entity.SurgeryDt,
                 EventDt = entity.EventDt,
                 SurgicalSiteInfectionType = entity.SurgicalSiteInfectionType,
-                IsPreOpAntibioticAdmin = entity.IsPreOpAntibioticAdmin,
                 SkinPrep = entity.SkinPrep,
-                SurgeonNpi1 = entity.SurgeonNpi1,
-                SurgeonNpi2 = entity.SurgeonNpi2,
                 OrRoom = entity.OrRoom,
                 WoundClassification = entity.WoundClassification,
                 Nhsn = entity.Nhsn,
@@ -40,7 +38,11 @@ namespace UsaWeb.Service.Features.Extensions
                 CreateTs = entity.CreateTs,
                 Temp1 = entity.Temp1,
                 Temp2 = entity.Temp2,
-                Status = entity.Status
+                Status = entity.Status,
+                NpiSurgeon1 = entity.NpiSurgeon1,
+                NpiSurgeon2 = entity.NpiSurgeon2,
+                PreOpAntibioticAdminNote = entity.PreOpAntibioticAdminNote,
+                preOpAntibioticAdminYN = entity.PreOpAntibioticAdminYn
             };
         }
 
@@ -60,10 +62,7 @@ namespace UsaWeb.Service.Features.Extensions
             entity.SurgeryDt = model.SurgeryDt;
             entity.EventDt = model.EventDt;
             entity.SurgicalSiteInfectionType = model.SurgicalSiteInfectionType;
-            entity.IsPreOpAntibioticAdmin = model.IsPreOpAntibioticAdmin;
             entity.SkinPrep = model.SkinPrep;
-            entity.SurgeonNpi1 = model.SurgeonNpi1;
-            entity.SurgeonNpi2 = model.SurgeonNpi2;
             entity.OrRoom = model.OrRoom;
             entity.WoundClassification = model.WoundClassification;
             entity.Nhsn = model.Nhsn;
@@ -75,6 +74,10 @@ namespace UsaWeb.Service.Features.Extensions
             entity.Temp1 = model.Temp1;
             entity.Temp2 = model.Temp2;
             entity.Status = model.Status;
+            entity.NpiSurgeon1 = model.NpiSurgeon1;
+            entity.NpiSurgeon2 = model.NpiSurgeon2;
+            entity.PreOpAntibioticAdminYn = model.preOpAntibioticAdminYN;
+            entity.PreOpAntibioticAdminNote = model.PreOpAntibioticAdminNote;
         }
 
         public static Models.SurgicalSiteInfection ToEntity(this SurgicalSiteInfectionViewModel model)
@@ -97,10 +100,7 @@ namespace UsaWeb.Service.Features.Extensions
                 SurgeryDt = model.SurgeryDt,
                 EventDt = model.EventDt,
                 SurgicalSiteInfectionType = model.SurgicalSiteInfectionType,
-                IsPreOpAntibioticAdmin = model.IsPreOpAntibioticAdmin,
                 SkinPrep = model.SkinPrep,
-                SurgeonNpi1 = model.SurgeonNpi1,
-                SurgeonNpi2 = model.SurgeonNpi2,
                 OrRoom = model.OrRoom,
                 WoundClassification = model.WoundClassification,
                 Nhsn = model.Nhsn,
@@ -111,7 +111,11 @@ namespace UsaWeb.Service.Features.Extensions
                 CreateTs = model.CreateTs,
                 Temp1 = model.Temp1,
                 Temp2 = model.Temp2,
-                Status = model.Status
+                Status = model.Status,
+                NpiSurgeon1 = model.NpiSurgeon1,
+                NpiSurgeon2 = model.NpiSurgeon2,
+                PreOpAntibioticAdminYn = model.preOpAntibioticAdminYN,
+                PreOpAntibioticAdminNote = model.PreOpAntibioticAdminNote
             };
         }
     }

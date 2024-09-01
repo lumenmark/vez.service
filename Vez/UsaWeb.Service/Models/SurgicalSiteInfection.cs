@@ -71,21 +71,28 @@ public partial class SurgicalSiteInfection
     [Unicode(false)]
     public string SurgicalSiteInfectionType { get; set; }
 
-    [Column("isPreOpAntibioticAdmin")]
+    [Column("preOpAntibioticAdminNote")]
     [StringLength(200)]
     [Unicode(false)]
-    public string IsPreOpAntibioticAdmin { get; set; }
+    public string PreOpAntibioticAdminNote { get; set; }
+
+    [Column("preOpAntibioticAdminYN")]
+    public bool? PreOpAntibioticAdminYn { get; set; }
 
     [Column("skinPrep")]
     [StringLength(50)]
     [Unicode(false)]
     public string SkinPrep { get; set; }
 
-    [Column("surgeonNpi1")]
-    public int? SurgeonNpi1 { get; set; }
+    [Column("npiSurgeon1")]
+    [StringLength(200)]
+    [Unicode(false)]
+    public string NpiSurgeon1 { get; set; }
 
-    [Column("surgeonNpi2")]
-    public int? SurgeonNpi2 { get; set; }
+    [Column("npiSurgeon2")]
+    [StringLength(200)]
+    [Unicode(false)]
+    public string NpiSurgeon2 { get; set; }
 
     [Column("orRoom")]
     [StringLength(50)]
