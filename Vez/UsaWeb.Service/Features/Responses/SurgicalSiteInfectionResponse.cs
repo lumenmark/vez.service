@@ -67,6 +67,8 @@ namespace UsaWeb.Service.Features.Responses
 
         public string Status { get; set; }
 
+        public bool? HairRemovalYn { get; set; }
+
         // Additional fields from joins
         public string FullName { get; set; }
         public string Npi { get; set; }

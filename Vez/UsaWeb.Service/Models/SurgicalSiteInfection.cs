@@ -141,4 +141,7 @@ public partial class SurgicalSiteInfection
     [StringLength(20)]
     [Unicode(false)]
     public string Status { get; set; }
+
+    [Column("hairRemovalYN")]
+    public bool? HairRemovalYn { get; set; }
 }

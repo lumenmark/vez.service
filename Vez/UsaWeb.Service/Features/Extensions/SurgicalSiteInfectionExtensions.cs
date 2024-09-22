@@ -42,7 +42,8 @@ namespace UsaWeb.Service.Features.Extensions
                 NpiSurgeon1 = entity.NpiSurgeon1,
                 NpiSurgeon2 = entity.NpiSurgeon2,
                 PreOpAntibioticAdminNote = entity.PreOpAntibioticAdminNote,
-                preOpAntibioticAdminYN = entity.PreOpAntibioticAdminYn
+                preOpAntibioticAdminYN = entity.PreOpAntibioticAdminYn,
+                HairRemovalYn = entity.HairRemovalYn
             };
         }
 
@@ -78,6 +79,7 @@ namespace UsaWeb.Service.Features.Extensions
             entity.NpiSurgeon2 = model.NpiSurgeon2;
             entity.PreOpAntibioticAdminYn = model.preOpAntibioticAdminYN;
             entity.PreOpAntibioticAdminNote = model.PreOpAntibioticAdminNote;
+            entity.HairRemovalYn = model.HairRemovalYn;
         }
 
         public static Models.SurgicalSiteInfection ToEntity(this SurgicalSiteInfectionViewModel model)
@@ -115,7 +117,8 @@ namespace UsaWeb.Service.Features.Extensions
                 NpiSurgeon1 = model.NpiSurgeon1,
                 NpiSurgeon2 = model.NpiSurgeon2,
                 PreOpAntibioticAdminYn = model.preOpAntibioticAdminYN,
-                PreOpAntibioticAdminNote = model.PreOpAntibioticAdminNote
+                PreOpAntibioticAdminNote = model.PreOpAntibioticAdminNote,
+                HairRemovalYn = model.HairRemovalYn
             };
         }
     }

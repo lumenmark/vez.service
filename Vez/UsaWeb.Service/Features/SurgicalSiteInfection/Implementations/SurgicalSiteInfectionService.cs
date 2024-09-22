@@ -3,6 +3,7 @@ using UsaWeb.Service.Features.Extensions;
 using UsaWeb.Service.Features.Requests;
 using UsaWeb.Service.Features.Responses;
 using UsaWeb.Service.Features.SurgicalSiteInfection.Abstractions;
+using UsaWeb.Service.Models;
 using UsaWeb.Service.ViewModels;
 
 namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
@@ -62,6 +63,11 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
             entity.UpdateFromViewModel(model);
             var updatedEntity = await _repository.UpdateSurgicalSiteInfectionAsync(entity);
             return updatedEntity.ToViewModel();
+        }
+
+        public async Task<IEnumerable<NhsnProcedureCategory>> GetNhsnProcedureCategories()
+        {
+            return await _repository.GetNhsnProcedureCategories();
         }
     }
 }

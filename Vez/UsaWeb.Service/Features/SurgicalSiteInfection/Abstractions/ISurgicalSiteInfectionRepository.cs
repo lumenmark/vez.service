@@ -1,5 +1,6 @@
 ﻿using UsaWeb.Service.Features.Requests;
 using UsaWeb.Service.Features.Responses;
+using UsaWeb.Service.Models;
 using UsaWeb.Service.ViewModels;
 namespace UsaWeb.Service.Features.SurgicalSiteInfection.Abstractions
 {
@@ -11,5 +12,6 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Abstractions
         Task<Models.SurgicalSiteInfection> CreateSurgicalSiteInfectionAsync(SurgicalSiteInfectionViewModel model);
         Task<Models.SurgicalSiteInfection> UpdateSurgicalSiteInfectionAsync(Models.SurgicalSiteInfection entity);
         Task<bool> DeleteSurgicalSiteInfectionAsync(int id);
+        Task<IEnumerable<NhsnProcedureCategory>> GetNhsnProcedureCategories();
     }
 }

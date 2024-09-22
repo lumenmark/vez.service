@@ -46,6 +46,7 @@ namespace UsaWeb.Service.Data
         public virtual DbSet<WordResponse> WordResponse { get; set; }
         public virtual DbSet<WordResponseRaw> WordResponseRaw { get; set; }
         public virtual DbSet<SurgicalSiteInfection> SurgicalSiteInfections { get; set; }
+        public virtual DbSet<NhsnProcedureCategory> NhsnProcedureCategories { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

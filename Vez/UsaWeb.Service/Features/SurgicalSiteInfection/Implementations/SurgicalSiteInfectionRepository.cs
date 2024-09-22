@@ -6,6 +6,7 @@ using UsaWeb.Service.Features.Extensions;
 using UsaWeb.Service.Features.Requests;
 using UsaWeb.Service.Features.Responses;
 using UsaWeb.Service.Features.SurgicalSiteInfection.Abstractions;
+using UsaWeb.Service.Models;
 using UsaWeb.Service.ViewModels;
 
 namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
@@ -202,7 +203,8 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
                 FullName = await reader.IsDBNullAsync(reader.GetOrdinal("FullName")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("FullName")),
                 Npi = await reader.IsDBNullAsync(reader.GetOrdinal("npi")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("npi")),
                 NameWithDegree = await reader.IsDBNullAsync(reader.GetOrdinal("nameWithDegree")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("nameWithDegree")),
-                ResignedDt = await reader.IsDBNullAsync(reader.GetOrdinal("resignedDt")) ? null : await reader.GetFieldValueAsync<DateTime>(reader.GetOrdinal("resignedDt"))
+                ResignedDt = await reader.IsDBNullAsync(reader.GetOrdinal("resignedDt")) ? null : await reader.GetFieldValueAsync<DateTime>(reader.GetOrdinal("resignedDt")),
+                HairRemovalYn = await reader.IsDBNullAsync(reader.GetOrdinal("HairRemovalYn")) ? null : await reader.GetFieldValueAsync<bool>(reader.GetOrdinal("HairRemovalYn")),
             };
         }
 
@@ -212,6 +214,11 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
             {
                 parameters.Add(new SqlParameter(paramName, value));
             }
+        }
+
+        public async Task<IEnumerable<NhsnProcedureCategory>> GetNhsnProcedureCategories()
+        {
+            return await _context.NhsnProcedureCategories.ToListAsync();
         }
     }
 }

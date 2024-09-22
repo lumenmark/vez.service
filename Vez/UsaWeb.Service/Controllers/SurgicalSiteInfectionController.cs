@@ -11,13 +11,23 @@ namespace UsaWeb.Service.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class SurgicalSiteInfectionController : ControllerBase
+    public class SurgicalSiteInfectionController(ISurgicalSiteInfectionService service) : ControllerBase
     {
-        private readonly ISurgicalSiteInfectionService _service;
+        private readonly ISurgicalSiteInfectionService _service = service;
 
-        public SurgicalSiteInfectionController(ISurgicalSiteInfectionService service)
+        [HttpGet("/nhsn_procedure_categories")]
+        public async Task<ActionResult<IEnumerable<NhsnProcedureCategory>>> GetAllNhsnProcedureCategories()
         {
-            _service = service;
+            try
+            {
+                var result = await _service.GetNhsnProcedureCategories();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                DBHelper.LogError($"SurgicalSiteInfectionController.GetAllNhsnProcedureCategories {DateTime.UtcNow} - {ex.Message} - InnerException : {ex.InnerException} ");
+                return StatusCode(500, new { message = "An error occurred while processing your request." });
+            }
         }
 
         /// <summary>
