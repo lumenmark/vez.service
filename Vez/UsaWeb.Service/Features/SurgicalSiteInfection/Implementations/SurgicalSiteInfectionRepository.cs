@@ -191,7 +191,7 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
                 NpiSurgeon2 = await reader.IsDBNullAsync(reader.GetOrdinal("NpiSurgeon2")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("NpiSurgeon2")),
                 OrRoom = await reader.IsDBNullAsync(reader.GetOrdinal("orRoom")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("orRoom")),
                 WoundClassification = await reader.IsDBNullAsync(reader.GetOrdinal("woundClassification")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("woundClassification")),
-                Nhsn = await reader.IsDBNullAsync(reader.GetOrdinal("nhsn")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("nhsn")),
+                Nhsn = await reader.IsDBNullAsync(reader.GetOrdinal("nhsn")) ? null : (await reader.GetFieldValueAsync<string>(reader.GetOrdinal("nhsn"))).Trim(), // Trimming the NHSN value
                 NoteInline = await reader.IsDBNullAsync(reader.GetOrdinal("noteInline")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("noteInline")),
                 Note = await reader.IsDBNullAsync(reader.GetOrdinal("note")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("note")),
                 MemberIdCreatedBy = await reader.IsDBNullAsync(reader.GetOrdinal("memberIdCreatedBy")) ? null : await reader.GetFieldValueAsync<int>(reader.GetOrdinal("memberIdCreatedBy")),
