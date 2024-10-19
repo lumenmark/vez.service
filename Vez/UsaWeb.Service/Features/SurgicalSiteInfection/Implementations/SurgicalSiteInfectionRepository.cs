@@ -129,13 +129,57 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
             return results;
         }
 
+        /// <summary>
+        /// Creates the surgical site infection asynchronous.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentException">Please fill the form.</exception>
+        /// <exception cref="System.InvalidOperationException">An error occurred while saving the data.</exception>
         public async Task<Models.SurgicalSiteInfection> CreateSurgicalSiteInfectionAsync(SurgicalSiteInfectionViewModel model)
         {
-            var entity = model.ToEntity();
-            await _context.SurgicalSiteInfections.AddAsync(entity);
-            await _context.SaveChangesAsync();
-            return entity;
+            if (model == null)
+            {
+                throw new ArgumentException("Please fill the form.");
+            }
+
+            // Start a transaction
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                // Convert ViewModel to Entity
+                var entity = model.ToEntity();
+
+                // Add the main SurgicalSiteInfection entity
+                await _context.SurgicalSiteInfections.AddAsync(entity);
+                await _context.SaveChangesAsync();
+
+                // Create and save the related SurgicalSiteInfectionSkinPrep entity
+                var skinPrepEntity = new SurgicalSiteInfectionSkinPrep
+                {
+                    CreateTs = DateTime.UtcNow,
+                    SkinPrep = model.SkinPrep,
+                    SurgicalSiteInfectionId = entity.SurgicalSiteInfectionId
+                };
+
+                await _context.SurgicalSiteInfectionSkinPreps.AddAsync(skinPrepEntity);
+                await _context.SaveChangesAsync();
+
+                // Commit the transaction
+                await transaction.CommitAsync();
+
+                return entity;
+            }
+            catch (Exception ex)
+            {
+                // Rollback the transaction if any error occurs
+                await transaction.RollbackAsync();
+
+                // Optionally log the exception and rethrow it
+                throw new InvalidOperationException("An error occurred while saving the data.", ex);
+            }
         }
+
 
         public async Task<bool> DeleteSurgicalSiteInfectionAsync(int id)
         {
@@ -158,11 +202,51 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
             return await _context.SurgicalSiteInfections.FindAsync(id);
         }
 
-        public async Task<Models.SurgicalSiteInfection> UpdateSurgicalSiteInfectionAsync(Models.SurgicalSiteInfection entity)
+        public async Task<Models.SurgicalSiteInfection> UpdateSurgicalSiteInfectionAsync(Models.SurgicalSiteInfection existingEntity)
         {
-            _context.SurgicalSiteInfections.Update(entity);
-            await _context.SaveChangesAsync();
-            return entity;
+            // Start a transaction using the dbContext
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                // Update the SurgicalSiteInfection entity
+                _context.SurgicalSiteInfections.Update(existingEntity);
+                await _context.SaveChangesAsync();
+
+                // Fetch the existing SurgicalSiteInfectionSkinPrep entity
+                var skinPrepExisted = await _context.SurgicalSiteInfectionSkinPreps
+                    .FirstOrDefaultAsync(s => s.SurgicalSiteInfectionId == existingEntity.SurgicalSiteInfectionId);
+
+                if (skinPrepExisted != null)
+                {
+                    // Update the existing SurgicalSiteInfectionSkinPrep entity
+                    skinPrepExisted.SkinPrep = existingEntity.SkinPrep;
+                    skinPrepExisted.CreateTs = DateTime.UtcNow;
+                    _context.SurgicalSiteInfectionSkinPreps.Update(skinPrepExisted);
+                }
+                else
+                {
+                    // Create a new SurgicalSiteInfectionSkinPrep entity if none exists
+                    var skinPrepEntity = new SurgicalSiteInfectionSkinPrep
+                    {
+                        CreateTs = DateTime.UtcNow,
+                        SkinPrep = existingEntity.SkinPrep,
+                        SurgicalSiteInfectionId = existingEntity.SurgicalSiteInfectionId
+                    };
+                    await _context.SurgicalSiteInfectionSkinPreps.AddAsync(skinPrepEntity);
+                }
+
+                // Commit the changes within the transaction
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                return existingEntity;
+            }
+            catch (Exception ex)
+            {
+                // Rollback the transaction in case of any error
+                await transaction.RollbackAsync();
+                throw new InvalidOperationException("An error occurred while updating the data.", ex);
+            }
         }
 
         private static async Task<SurgicalSiteInfectionResponse> CreateSurgicalSiteInfectionResponseFromDbResult(DbDataReader reader)

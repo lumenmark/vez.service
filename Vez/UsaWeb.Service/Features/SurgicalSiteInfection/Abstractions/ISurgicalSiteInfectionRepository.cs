@@ -10,7 +10,7 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Abstractions
         Task<IEnumerable<Models.SurgicalSiteInfection>> GetAllSurgicalSiteInfectionsAsync();
         Task<Models.SurgicalSiteInfection> GetSurgicalSiteInfectionByIdAsync(int id);
         Task<Models.SurgicalSiteInfection> CreateSurgicalSiteInfectionAsync(SurgicalSiteInfectionViewModel model);
-        Task<Models.SurgicalSiteInfection> UpdateSurgicalSiteInfectionAsync(Models.SurgicalSiteInfection entity);
+        Task<Models.SurgicalSiteInfection> UpdateSurgicalSiteInfectionAsync(Models.SurgicalSiteInfection existingEntity);
         Task<bool> DeleteSurgicalSiteInfectionAsync(int id);
         Task<IEnumerable<NhsnProcedureCategory>> GetNhsnProcedureCategories();
     }

@@ -5,16 +5,19 @@ using UsaWeb.Service.Features.Responses;
 using UsaWeb.Service.Features.SurgicalSiteInfection.Abstractions;
 using UsaWeb.Service.Models;
 using UsaWeb.Service.ViewModels;
+using static Amazon.S3.Util.S3EventNotification;
 
 namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
 {
     public class SurgicalSiteInfectionService : ISurgicalSiteInfectionService
     {
         private readonly ISurgicalSiteInfectionRepository _repository;
+        private readonly ISurgicalSiteInfectionSkinPrepRepository _skinPrepRepository;
 
-        public SurgicalSiteInfectionService(ISurgicalSiteInfectionRepository repository)
+        public SurgicalSiteInfectionService(ISurgicalSiteInfectionRepository repository, ISurgicalSiteInfectionSkinPrepRepository skinPrepRepository)
         {
             _repository = repository;
+            _skinPrepRepository = skinPrepRepository;
         }
 
         public async Task<IEnumerable<SurgicalSiteInfectionResponse>> GetSurgicalSiteInfectionsAsync(SurgicalSiteInfectionRequest request)
@@ -44,8 +47,8 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
                 return null;
 
             existingEntity.UpdateFromViewModel(model);
-
             var updatedEntity = await _repository.UpdateSurgicalSiteInfectionAsync(existingEntity);
+
             return updatedEntity;
         }
 

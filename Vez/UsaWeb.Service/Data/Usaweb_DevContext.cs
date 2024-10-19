@@ -47,7 +47,7 @@ namespace UsaWeb.Service.Data
         public virtual DbSet<WordResponseRaw> WordResponseRaw { get; set; }
         public virtual DbSet<SurgicalSiteInfection> SurgicalSiteInfections { get; set; }
         public virtual DbSet<NhsnProcedureCategory> NhsnProcedureCategories { get; set; }
-
+        public virtual DbSet<SurgicalSiteInfectionSkinPrep> SurgicalSiteInfectionSkinPreps { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -208,6 +208,11 @@ namespace UsaWeb.Service.Data
                 entity.HasKey(e => e.SurgicalSiteInfectionId).HasName("PK_SurgicalSiteInfection1");
 
                 entity.Property(e => e.Nhsn).IsFixedLength();
+            });
+            modelBuilder.Entity<SurgicalSiteInfectionSkinPrep>(entity =>
+            {
+                entity.Property(e => e.CreateTs).HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.SkinPrep).HasComment("Betadine, CHG, Chloraprep, Alcohol");
             });
 
             OnModelCreatingGeneratedProcedures(modelBuilder);

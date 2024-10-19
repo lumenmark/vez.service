@@ -72,6 +72,7 @@ builder.Services.AddDbContext<Usaweb_DevContext>(options =>
     options.UseSqlServer(configuration.GetSection("ConnectionStrings:DefaultConnection").ToString()));
 builder.Services.AddScoped<ISurgicalSiteInfectionService, SurgicalSiteInfectionService>();
 builder.Services.AddScoped<ISurgicalSiteInfectionRepository, SurgicalSiteInfectionRepository>();
+builder.Services.AddScoped<ISurgicalSiteInfectionSkinPrepRepository, SurgicalSiteInfectionSkinPrepRepository>();
 
 var app = builder.Build();
 
