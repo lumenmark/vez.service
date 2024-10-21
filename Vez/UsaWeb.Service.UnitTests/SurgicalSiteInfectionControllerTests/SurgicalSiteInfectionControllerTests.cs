@@ -7,12 +7,13 @@ namespace UsaWeb.Service.UnitTests.SurgicalSiteInfectionControllerTests
     public partial class SurgicalSiteInfectionControllerTests
     {
         private readonly Mock<ISurgicalSiteInfectionService> MockService;
+        private readonly Mock<ISurgicalSiteInfectionSkinPrepService> MockSkinPrepService;
         private readonly SurgicalSiteInfectionController _controller;
 
         public SurgicalSiteInfectionControllerTests()
         {
             MockService = new Mock<ISurgicalSiteInfectionService>();
-            _controller = new SurgicalSiteInfectionController(MockService.Object);
+            _controller = new SurgicalSiteInfectionController(MockService.Object, MockSkinPrepService.Object);
         }
     }
 }

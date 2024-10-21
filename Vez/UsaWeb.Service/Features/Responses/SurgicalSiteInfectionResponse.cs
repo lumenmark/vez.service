@@ -41,6 +41,8 @@ namespace UsaWeb.Service.Features.Responses
 
         public string SkinPrep { get; set; }
 
+        public string SurgicalSiteInfectionSkinPrep { get; set; }
+
         public string NpiSurgeon1 { get; set; }
 
         public string NpiSurgeon2 { get; set; }

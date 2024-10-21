@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Data.Common;
 using UsaWeb.Service.Data;
 using UsaWeb.Service.Features.Extensions;
@@ -109,20 +110,33 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
 
             var results = new List<SurgicalSiteInfectionResponse>();
 
-            using (var connection = _context.Database.GetDbConnection())
+            var connection = _context.Database.GetDbConnection();
+
+            try
             {
-                await connection.OpenAsync();
+                // Check if the connection is open
+                if (connection.State == ConnectionState.Closed)
+                {
+                    await connection.OpenAsync(); // Open connection asynchronously
+                }
+
                 using var command = connection.CreateCommand();
                 command.CommandText = query;
                 command.Parameters.AddRange(parameters.ToArray());
 
-                using (var reader = await command.ExecuteReaderAsync())
+                using var reader = await command.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
                 {
-                    while (await reader.ReadAsync())
-                    {
-                        SurgicalSiteInfectionResponse response = await CreateSurgicalSiteInfectionResponseFromDbResult(reader);
-                        results.Add(response);
-                    }
+                    SurgicalSiteInfectionResponse response = await CreateSurgicalSiteInfectionResponseFromDbResult(reader);
+                    results.Add(response);
+                }
+            }
+            finally
+            {
+                // Only close the connection when all operations are completed
+                if (connection.State == ConnectionState.Open)
+                {
+                    await connection.CloseAsync();
                 }
             }
 
@@ -143,43 +157,21 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
                 throw new ArgumentException("Please fill the form.");
             }
 
-            // Start a transaction
-            using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                // Convert ViewModel to Entity
                 var entity = model.ToEntity();
 
-                // Add the main SurgicalSiteInfection entity
                 await _context.SurgicalSiteInfections.AddAsync(entity);
                 await _context.SaveChangesAsync();
-
-                // Create and save the related SurgicalSiteInfectionSkinPrep entity
-                var skinPrepEntity = new SurgicalSiteInfectionSkinPrep
-                {
-                    CreateTs = DateTime.UtcNow,
-                    SkinPrep = model.SkinPrep,
-                    SurgicalSiteInfectionId = entity.SurgicalSiteInfectionId
-                };
-
-                await _context.SurgicalSiteInfectionSkinPreps.AddAsync(skinPrepEntity);
-                await _context.SaveChangesAsync();
-
-                // Commit the transaction
-                await transaction.CommitAsync();
 
                 return entity;
             }
             catch (Exception ex)
             {
-                // Rollback the transaction if any error occurs
-                await transaction.RollbackAsync();
-
                 // Optionally log the exception and rethrow it
                 throw new InvalidOperationException("An error occurred while saving the data.", ex);
             }
         }
-
 
         public async Task<bool> DeleteSurgicalSiteInfectionAsync(int id)
         {

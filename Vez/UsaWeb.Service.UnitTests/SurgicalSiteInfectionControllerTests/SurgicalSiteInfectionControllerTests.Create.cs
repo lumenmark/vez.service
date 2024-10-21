@@ -27,7 +27,7 @@ namespace UsaWeb.Service.UnitTests.SurgicalSiteInfectionControllerTests
             var result = await _controller.Create(model);
 
             // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result.Result);
+            var okResult = Assert.IsType<OkObjectResult>(result);
             Assert.Equal(200, okResult.StatusCode);
             Assert.Equal(expectedData, okResult.Value);
         }
@@ -45,7 +45,7 @@ namespace UsaWeb.Service.UnitTests.SurgicalSiteInfectionControllerTests
             var result = await _controller.Create(model);
 
             // Assert
-            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result.Result);
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.Equal(400, badRequestResult.StatusCode);
 
             // Assert the message in the anonymous type
@@ -67,7 +67,7 @@ namespace UsaWeb.Service.UnitTests.SurgicalSiteInfectionControllerTests
             var result = await _controller.Create(model);
 
             // Assert
-            var statusCodeResult = Assert.IsType<ObjectResult>(result.Result);
+            var statusCodeResult = Assert.IsType<ObjectResult>(result);
             Assert.Equal(500, statusCodeResult.StatusCode);
 
             // Assert the message in the anonymous type

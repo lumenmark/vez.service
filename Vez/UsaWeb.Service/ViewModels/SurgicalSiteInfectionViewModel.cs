@@ -145,6 +145,14 @@ namespace UsaWeb.Service.ViewModels
         public string SkinPrep { get; set; }
 
         /// <summary>
+        /// Gets or sets the surgical site infection skin prep.
+        /// </summary>
+        /// <value>
+        /// The surgical site infection skin prep.
+        /// </value>
+        public string SurgicalSiteInfectionSkinPrep { get; set; }
+
+        /// <summary>
         /// Gets or sets the npi surgeon1.
         /// </summary>
         /// <value>

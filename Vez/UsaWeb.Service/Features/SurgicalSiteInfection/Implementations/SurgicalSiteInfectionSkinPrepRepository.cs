@@ -19,9 +19,9 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
             return await _context.SurgicalSiteInfectionSkinPreps.FindAsync(id);
         }
 
-        public async Task<SurgicalSiteInfectionSkinPrep> GetBySurgicalSiteInfectionIdAsync(int id)
+        public async Task<List<SurgicalSiteInfectionSkinPrep>> GetBySurgicalSiteInfectionIdAsync(int id)
         {
-            return await _context.SurgicalSiteInfectionSkinPreps.FirstOrDefaultAsync(_ => _.SurgicalSiteInfectionId == id);
+            return await _context.SurgicalSiteInfectionSkinPreps.Where(_ => _.SurgicalSiteInfectionId == id).ToListAsync();
         }
 
         public async Task AddAsync(SurgicalSiteInfectionSkinPrep entity)

@@ -17,6 +17,7 @@ namespace UsaWeb.Service.Data
         public Usaweb_DevContext(DbContextOptions<Usaweb_DevContext> options)
             : base(options)
         {
+            this.ChangeTracker.LazyLoadingEnabled = false;  // Disable lazy loading
         }
 
         public virtual DbSet<Application> Application { get; set; }

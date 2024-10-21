@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
+using UsaWeb.Service.Data;
 using UsaWeb.Service.Features.Extensions;
 using UsaWeb.Service.Features.Requests;
 using UsaWeb.Service.Features.Responses;
@@ -9,20 +10,23 @@ using static Amazon.S3.Util.S3EventNotification;
 
 namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
 {
-    public class SurgicalSiteInfectionService : ISurgicalSiteInfectionService
+    public class SurgicalSiteInfectionService(ISurgicalSiteInfectionRepository repository,
+        ISurgicalSiteInfectionSkinPrepRepository siteInfectionSkinPrepRepository) : ISurgicalSiteInfectionService
     {
-        private readonly ISurgicalSiteInfectionRepository _repository;
-        private readonly ISurgicalSiteInfectionSkinPrepRepository _skinPrepRepository;
-
-        public SurgicalSiteInfectionService(ISurgicalSiteInfectionRepository repository, ISurgicalSiteInfectionSkinPrepRepository skinPrepRepository)
-        {
-            _repository = repository;
-            _skinPrepRepository = skinPrepRepository;
-        }
+        private readonly ISurgicalSiteInfectionRepository _repository = repository;
+        private readonly ISurgicalSiteInfectionSkinPrepRepository _siteInfectionSkinPrepRepository = siteInfectionSkinPrepRepository;
 
         public async Task<IEnumerable<SurgicalSiteInfectionResponse>> GetSurgicalSiteInfectionsAsync(SurgicalSiteInfectionRequest request)
         {
-            return await _repository.GetSurgicalSiteInfectionsAsync(request);
+            var surgicalSiteInfectionResponses =  await _repository.GetSurgicalSiteInfectionsAsync(request);
+
+            foreach (var item in surgicalSiteInfectionResponses)
+            {
+                var skinPrep = await _siteInfectionSkinPrepRepository.GetBySurgicalSiteInfectionIdAsync(item.SurgicalSiteInfectionId);
+                item.SurgicalSiteInfectionSkinPrep = string.Join(',', skinPrep.Select(sp => sp.SkinPrep));
+            }
+
+            return surgicalSiteInfectionResponses;
         }
 
         public async Task<Models.SurgicalSiteInfection> CreateSurgicalSiteInfectionAsync(SurgicalSiteInfectionViewModel model)

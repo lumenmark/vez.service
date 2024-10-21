@@ -1,4 +1,5 @@
-﻿using UsaWeb.Service.ViewModels;
+﻿using UsaWeb.Service.Features.Responses;
+using UsaWeb.Service.ViewModels;
 using static Amazon.S3.Util.S3EventNotification;
 
 
@@ -63,7 +64,6 @@ namespace UsaWeb.Service.Features.Extensions
             entity.SurgeryDt = model.SurgeryDt;
             entity.EventDt = model.EventDt;
             entity.SurgicalSiteInfectionType = model.SurgicalSiteInfectionType;
-            entity.SkinPrep = model.SkinPrep;
             entity.OrRoom = model.OrRoom;
             entity.WoundClassification = model.WoundClassification;
             entity.Nhsn = model.Nhsn;
@@ -102,7 +102,6 @@ namespace UsaWeb.Service.Features.Extensions
                 SurgeryDt = model.SurgeryDt,
                 EventDt = model.EventDt,
                 SurgicalSiteInfectionType = model.SurgicalSiteInfectionType,
-                SkinPrep = model.SkinPrep,
                 OrRoom = model.OrRoom,
                 WoundClassification = model.WoundClassification,
                 Nhsn = model.Nhsn,
@@ -119,6 +118,45 @@ namespace UsaWeb.Service.Features.Extensions
                 PreOpAntibioticAdminYn = model.preOpAntibioticAdminYN,
                 PreOpAntibioticAdminNote = model.PreOpAntibioticAdminNote,
                 HairRemovalYn = model.HairRemovalYn
+            };
+        }
+
+        public static SurgicalSiteInfectionResponse ToResponse(this Models.SurgicalSiteInfection entity)
+        {
+            return new SurgicalSiteInfectionResponse
+            {
+                SurgicalSiteInfectionId = entity.SurgicalSiteInfectionId,
+                Fin = entity.Fin,
+                Mrn = entity.Mrn,
+                PatientFirstName = entity.PatientFirstName,
+                PatientLastMiddleName = entity.PatientLastMiddleName,
+                PatientLastName = entity.PatientLastName,
+                Dob = entity.Dob,
+                Sex = entity.Sex,
+                AdmitDt = entity.AdmitDt,
+                AdmitNote = entity.AdmitNote,
+                SurgicalProcedure = entity.SurgicalProcedure,
+                OutPatientInpatient = entity.OutPatientInpatient,
+                SurgeryDt = entity.SurgeryDt,
+                EventDt = entity.EventDt,
+                SurgicalSiteInfectionType = entity.SurgicalSiteInfectionType,
+                PreOpAntibioticAdminNote = entity.PreOpAntibioticAdminNote,
+                preOpAntibioticAdminYN = entity.PreOpAntibioticAdminYn,
+                SkinPrep = entity.SkinPrep,
+                NpiSurgeon1 = entity.NpiSurgeon1,
+                NpiSurgeon2 = entity.NpiSurgeon2,
+                OrRoom = entity.OrRoom,
+                WoundClassification = entity.WoundClassification,
+                Nhsn = entity.Nhsn,
+                NoteInline = entity.NoteInline,
+                Note = entity.Note,
+                MemberIdCreatedBy = entity.MemberIdCreatedBy,
+                MemberIdAssigned = entity.MemberIdAssigned,
+                CreateTs = entity.CreateTs,
+                Temp1 = entity.Temp1,
+                Temp2 = entity.Temp2,
+                Status = entity.Status,
+                HairRemovalYn = entity.HairRemovalYn
             };
         }
     }

@@ -41,6 +41,6 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Abstractions
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        Task<SurgicalSiteInfectionSkinPrep> GetBySurgicalSiteInfectionIdAsync(int id);
+        Task<List<SurgicalSiteInfectionSkinPrep>> GetBySurgicalSiteInfectionIdAsync(int id);
     }
 }

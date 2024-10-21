@@ -73,6 +73,7 @@ builder.Services.AddDbContext<Usaweb_DevContext>(options =>
 builder.Services.AddScoped<ISurgicalSiteInfectionService, SurgicalSiteInfectionService>();
 builder.Services.AddScoped<ISurgicalSiteInfectionRepository, SurgicalSiteInfectionRepository>();
 builder.Services.AddScoped<ISurgicalSiteInfectionSkinPrepRepository, SurgicalSiteInfectionSkinPrepRepository>();
+builder.Services.AddScoped<ISurgicalSiteInfectionSkinPrepService, SurgicalSiteInfectionSkinPrepService>();
 
 var app = builder.Build();
 

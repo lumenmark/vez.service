@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using UsaWeb.Service.Data;
+using UsaWeb.Service.Features.Extensions;
 using UsaWeb.Service.Features.Requests;
+using UsaWeb.Service.Features.Responses;
 using UsaWeb.Service.Features.SurgicalSiteInfection.Abstractions;
+using UsaWeb.Service.Features.SurgicalSiteInfection.Implementations;
 using UsaWeb.Service.Models;
 using UsaWeb.Service.ViewModels;
 
@@ -11,9 +14,10 @@ namespace UsaWeb.Service.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class SurgicalSiteInfectionController(ISurgicalSiteInfectionService service) : ControllerBase
+    public class SurgicalSiteInfectionController(ISurgicalSiteInfectionService service, ISurgicalSiteInfectionSkinPrepService skinPrepService) : ControllerBase
     {
         private readonly ISurgicalSiteInfectionService _service = service;
+        private readonly ISurgicalSiteInfectionSkinPrepService _skinPrepService = skinPrepService;
 
         [HttpGet("/nhsn_procedure_categories")]
         public async Task<ActionResult<IEnumerable<NhsnProcedureCategory>>> GetAllNhsnProcedureCategories()
@@ -89,12 +93,26 @@ namespace UsaWeb.Service.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<SurgicalSiteInfection>> Create(SurgicalSiteInfectionViewModel model)
+        public async Task<IActionResult> Create(SurgicalSiteInfectionViewModel model)
         {
             try
             {
-                var result = await _service.CreateSurgicalSiteInfectionAsync(model);
-                return Ok(result);
+                var surgicalSiteInfection = await _service.CreateSurgicalSiteInfectionAsync(model);
+                var skiPrepModel = new SkinPrepViewModel
+                {
+                    SurgicalSiteInfectionId = surgicalSiteInfection.SurgicalSiteInfectionId,
+                    SkinPrep = model.SurgicalSiteInfectionSkinPrep
+                };
+
+                var response = surgicalSiteInfection.ToResponse();
+
+                var isSkinPrepCreated = await _skinPrepService.CreateSkinPrepAsync(skiPrepModel);
+                if (isSkinPrepCreated)
+                {
+                    response.SurgicalSiteInfectionSkinPrep = model.SurgicalSiteInfectionSkinPrep;
+                }
+
+                return Ok(response);
             }
             catch (ArgumentException ex)
             {
@@ -115,7 +133,7 @@ namespace UsaWeb.Service.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<SurgicalSiteInfection>> Update(int id, SurgicalSiteInfectionViewModel model)
+        public async Task<ActionResult> Update(int id, SurgicalSiteInfectionViewModel model)
         {
             try
             {
@@ -124,7 +142,20 @@ namespace UsaWeb.Service.Controllers
                 {
                     return NotFound();
                 }
-                return Ok(result);
+
+                var response = result.ToResponse();
+                var skiPrepModel = new SkinPrepViewModel
+                {
+                    SurgicalSiteInfectionId = id,
+                    SkinPrep = model.SurgicalSiteInfectionSkinPrep
+                };
+
+                var isSkinPrepCreated = await _skinPrepService.UpdateSkinPrepAsync(skiPrepModel);
+                if (isSkinPrepCreated)
+                {
+                    response.SurgicalSiteInfectionSkinPrep = model.SurgicalSiteInfectionSkinPrep;
+                }
+                return Ok(response);
             }
             catch (ArgumentException ex)
             {
