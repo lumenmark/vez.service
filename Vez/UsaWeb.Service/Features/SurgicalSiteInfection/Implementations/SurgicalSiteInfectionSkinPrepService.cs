@@ -1,4 +1,5 @@
 ﻿using UsaWeb.Service.Data;
+using UsaWeb.Service.Features.Enums;
 using UsaWeb.Service.Features.Responses;
 using UsaWeb.Service.Features.SurgicalSiteInfection.Abstractions;
 using UsaWeb.Service.Models;
@@ -14,9 +15,25 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
         {
             try
             {
+                var skinPrepsToDelete = await _repository.GetBySurgicalSiteInfectionIdAsync(model.SurgicalSiteInfectionId);
+                foreach (var skinPrepToDelete in skinPrepsToDelete)
+                {
+                    await _repository.DeleteAsync(skinPrepToDelete.SurgicalSiteInfectionSkinPrepId);
+                }
+
+                if (string.IsNullOrEmpty(model.SkinPrep))
+                {
+                    return false;
+                }
+
                 var skinPreps = model.SkinPrep.Split(',').Select(ct => ct.Trim()).ToArray();
                 foreach (var skinPrep in skinPreps)
                 {
+                    if (!Enum.TryParse<SkinPrepOptions>(skinPrep, true, out _))
+                    {
+                        continue;
+                    }
+
                     var entity = new SurgicalSiteInfectionSkinPrep
                     {
                         SkinPrep = skinPrep,
@@ -64,6 +81,11 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
                 var skinPreps = model.SkinPrep.Split(',').Select(ct => ct.Trim()).ToArray();
                 foreach (var skinPrep in skinPreps)
                 {
+                    if (!Enum.TryParse<SkinPrepOptions>(skinPrep, true, out _))
+                    {
+                        continue;
+                    }
+
                     var entity = new SurgicalSiteInfectionSkinPrep
                     {
                         SkinPrep = skinPrep,
