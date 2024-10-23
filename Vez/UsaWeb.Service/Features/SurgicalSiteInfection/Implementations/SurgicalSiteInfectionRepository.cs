@@ -263,6 +263,7 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
                 PreOpAntibioticAdminNote = await reader.IsDBNullAsync(reader.GetOrdinal("preOpAntibioticAdminNote")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("preOpAntibioticAdminNote")),
                 preOpAntibioticAdminYN = await reader.IsDBNullAsync(reader.GetOrdinal("preOpAntibioticAdminYN")) ? null : await reader.GetFieldValueAsync<bool>(reader.GetOrdinal("preOpAntibioticAdminYN")),
                 SkinPrep = await reader.IsDBNullAsync(reader.GetOrdinal("skinPrep")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("skinPrep")),
+                SurgicalProcedureRaw = await reader.IsDBNullAsync(reader.GetOrdinal("surgicalProcedureRaw")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("surgicalProcedureRaw")),
                 NpiSurgeon1 = await reader.IsDBNullAsync(reader.GetOrdinal("NpiSurgeon1")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("NpiSurgeon1")),
                 NpiSurgeon2 = await reader.IsDBNullAsync(reader.GetOrdinal("NpiSurgeon2")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("NpiSurgeon2")),
                 OrRoom = await reader.IsDBNullAsync(reader.GetOrdinal("orRoom")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("orRoom")),

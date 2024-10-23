@@ -263,5 +263,13 @@ namespace UsaWeb.Service.ViewModels
         /// The hair removal yn.
         /// </value>
         public bool? HairRemovalYn { get; set; }
+
+        /// <summary>
+        /// Gets or sets the surgical procedure raw.
+        /// </summary>
+        /// <value>
+        /// The surgical procedure raw.
+        /// </value>
+        public string SurgicalProcedureRaw { get; set; }
     }
 }
