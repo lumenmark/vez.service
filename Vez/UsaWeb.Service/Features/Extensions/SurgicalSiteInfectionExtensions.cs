@@ -82,6 +82,7 @@ namespace UsaWeb.Service.Features.Extensions
             entity.PreOpAntibioticAdminNote = model.PreOpAntibioticAdminNote;
             entity.HairRemovalYn = model.HairRemovalYn;
             entity.SurgicalProcedureRaw = model.SurgicalProcedureRaw;
+            entity.SurgicalSiteInfectionTypeRaw = model.SurgicalSiteInfectionTypeRaw;
         }
 
         public static Models.SurgicalSiteInfection ToEntity(this SurgicalSiteInfectionViewModel model)
@@ -120,7 +121,8 @@ namespace UsaWeb.Service.Features.Extensions
                 PreOpAntibioticAdminYn = model.preOpAntibioticAdminYN,
                 PreOpAntibioticAdminNote = model.PreOpAntibioticAdminNote,
                 HairRemovalYn = model.HairRemovalYn,
-                SurgicalProcedureRaw = model.SurgicalProcedureRaw
+                SurgicalProcedureRaw = model.SurgicalProcedureRaw,
+                SurgicalSiteInfectionTypeRaw = model.SurgicalSiteInfectionTypeRaw
             };
         }
 
@@ -160,7 +162,8 @@ namespace UsaWeb.Service.Features.Extensions
                 Temp2 = entity.Temp2,
                 Status = entity.Status,
                 HairRemovalYn = entity.HairRemovalYn,
-                SurgicalProcedureRaw = entity.SurgicalProcedureRaw
+                SurgicalProcedureRaw = entity.SurgicalProcedureRaw,
+                SurgicalSiteInfectionTypeRaw = entity.SurgicalSiteInfectionType
             };
         }
     }

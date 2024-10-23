@@ -271,5 +271,13 @@ namespace UsaWeb.Service.ViewModels
         /// The surgical procedure raw.
         /// </value>
         public string SurgicalProcedureRaw { get; set; }
+
+        /// <summary>
+        /// Gets or sets the surgical site infection type raw.
+        /// </summary>
+        /// <value>
+        /// The surgical site infection type raw.
+        /// </value>
+        public string SurgicalSiteInfectionTypeRaw { get; set; }
     }
 }

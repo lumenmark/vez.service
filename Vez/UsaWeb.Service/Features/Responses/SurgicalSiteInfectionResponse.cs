@@ -72,6 +72,8 @@ namespace UsaWeb.Service.Features.Responses
         public bool? HairRemovalYn { get; set; }
         public string SurgicalProcedureRaw { get; set; }
 
+        public string SurgicalSiteInfectionTypeRaw { get; set; }
+
         // Additional fields from joins
         public string FullName { get; set; }
         public string Npi { get; set; }

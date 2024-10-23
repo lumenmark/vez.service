@@ -149,4 +149,9 @@ public partial class SurgicalSiteInfection
     [StringLength(50)]
     [Unicode(false)]
     public string SurgicalProcedureRaw { get; set; }
+
+    [Column("surgicalSiteInfectionTypeRaw")]
+    [StringLength(50)]
+    [Unicode(false)]
+    public string SurgicalSiteInfectionTypeRaw { get; set; }
 }
