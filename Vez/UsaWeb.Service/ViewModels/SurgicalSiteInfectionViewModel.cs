@@ -279,5 +279,21 @@ namespace UsaWeb.Service.ViewModels
         /// The surgical site infection type raw.
         /// </value>
         public string SurgicalSiteInfectionTypeRaw { get; set; }
+
+        /// <summary>
+        /// Gets or sets the asa.
+        /// </summary>
+        /// <value>
+        /// The asa.
+        /// </value>
+        public int? Asa { get; set; }
+
+        /// <summary>
+        /// Gets or sets the icd10.
+        /// </summary>
+        /// <value>
+        /// The icd10.
+        /// </value>
+        public string Icd10 { get; set; }
     }
 }

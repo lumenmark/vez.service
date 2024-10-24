@@ -104,6 +104,14 @@ public partial class SurgicalSiteInfection
     [Unicode(false)]
     public string WoundClassification { get; set; }
 
+    [Column("asa")]
+    public int? Asa { get; set; }
+
+    [Column("icd10")]
+    [StringLength(20)]
+    [Unicode(false)]
+    public string Icd10 { get; set; }
+
     [Column("nhsn")]
     [StringLength(10)]
     public string Nhsn { get; set; }

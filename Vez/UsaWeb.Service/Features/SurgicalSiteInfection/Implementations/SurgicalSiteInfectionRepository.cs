@@ -283,6 +283,8 @@ namespace UsaWeb.Service.Features.SurgicalSiteInfection.Implementations
                 NameWithDegree = await reader.IsDBNullAsync(reader.GetOrdinal("nameWithDegree")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("nameWithDegree")),
                 ResignedDt = await reader.IsDBNullAsync(reader.GetOrdinal("resignedDt")) ? null : await reader.GetFieldValueAsync<DateTime>(reader.GetOrdinal("resignedDt")),
                 HairRemovalYn = await reader.IsDBNullAsync(reader.GetOrdinal("HairRemovalYn")) ? null : await reader.GetFieldValueAsync<bool>(reader.GetOrdinal("HairRemovalYn")),
+                Asa = await reader.IsDBNullAsync(reader.GetOrdinal("asa")) ? null : await reader.GetFieldValueAsync<int>(reader.GetOrdinal("asa")),
+                Icd10 = await reader.IsDBNullAsync(reader.GetOrdinal("icd10")) ? null : await reader.GetFieldValueAsync<string>(reader.GetOrdinal("icd10"))
             };
         }
 

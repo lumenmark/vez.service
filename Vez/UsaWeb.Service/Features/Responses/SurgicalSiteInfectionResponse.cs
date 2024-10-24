@@ -70,9 +70,14 @@ namespace UsaWeb.Service.Features.Responses
         public string Status { get; set; }
 
         public bool? HairRemovalYn { get; set; }
+
         public string SurgicalProcedureRaw { get; set; }
 
         public string SurgicalSiteInfectionTypeRaw { get; set; }
+
+        public int? Asa { get; set; }
+
+        public string Icd10 { get; set; }
 
         // Additional fields from joins
         public string FullName { get; set; }

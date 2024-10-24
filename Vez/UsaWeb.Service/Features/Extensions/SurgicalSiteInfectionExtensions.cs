@@ -45,7 +45,9 @@ namespace UsaWeb.Service.Features.Extensions
                 PreOpAntibioticAdminNote = entity.PreOpAntibioticAdminNote,
                 preOpAntibioticAdminYN = entity.PreOpAntibioticAdminYn,
                 HairRemovalYn = entity.HairRemovalYn,
-                SurgicalProcedureRaw = entity.SurgicalProcedureRaw
+                SurgicalProcedureRaw = entity.SurgicalProcedureRaw,
+                Icd10 = entity.Icd10,
+                Asa = entity.Asa
             };
         }
 
@@ -83,6 +85,8 @@ namespace UsaWeb.Service.Features.Extensions
             entity.HairRemovalYn = model.HairRemovalYn;
             entity.SurgicalProcedureRaw = model.SurgicalProcedureRaw;
             entity.SurgicalSiteInfectionTypeRaw = model.SurgicalSiteInfectionTypeRaw;
+            entity.Asa = model.Asa;
+            entity.Icd10 = model.Icd10;
         }
 
         public static Models.SurgicalSiteInfection ToEntity(this SurgicalSiteInfectionViewModel model)
@@ -122,7 +126,9 @@ namespace UsaWeb.Service.Features.Extensions
                 PreOpAntibioticAdminNote = model.PreOpAntibioticAdminNote,
                 HairRemovalYn = model.HairRemovalYn,
                 SurgicalProcedureRaw = model.SurgicalProcedureRaw,
-                SurgicalSiteInfectionTypeRaw = model.SurgicalSiteInfectionTypeRaw
+                SurgicalSiteInfectionTypeRaw = model.SurgicalSiteInfectionTypeRaw,
+                Icd10 = model.Icd10,
+                Asa = model.Asa
             };
         }
 
@@ -163,7 +169,9 @@ namespace UsaWeb.Service.Features.Extensions
                 Status = entity.Status,
                 HairRemovalYn = entity.HairRemovalYn,
                 SurgicalProcedureRaw = entity.SurgicalProcedureRaw,
-                SurgicalSiteInfectionTypeRaw = entity.SurgicalSiteInfectionType
+                SurgicalSiteInfectionTypeRaw = entity.SurgicalSiteInfectionType,
+                Asa = entity.Asa,
+                Icd10 = entity.Icd10
             };
         }
     }
