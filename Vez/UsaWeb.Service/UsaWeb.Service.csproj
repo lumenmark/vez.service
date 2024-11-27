@@ -4,7 +4,14 @@
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>UsaWeb.Service</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>  
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Features\QrtCaseMeeting\**" />
+    <Content Remove="Features\QrtCaseMeeting\**" />
+    <EmbeddedResource Remove="Features\QrtCaseMeeting\**" />
+    <None Remove="Features\QrtCaseMeeting\**" />
+  </ItemGroup>  
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.S3" Version="3.7.101.44" />

@@ -6,6 +6,8 @@ using System.Configuration;
 using System.Text;
 using UsaWeb.Service;
 using UsaWeb.Service.Data;
+using UsaWeb.Service.Features.QrtCaseMeetingFeature.Abstractions;
+using UsaWeb.Service.Features.QrtCaseMeetingFeature.Implementations;
 using UsaWeb.Service.Features.SurgicalSiteInfection.Abstractions;
 using UsaWeb.Service.Features.SurgicalSiteInfection.Implementations;
 using static System.Net.Mime.MediaTypeNames;
@@ -59,7 +61,11 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers(options =>
 {
     options.InputFormatters.Insert(0, MyJPIF.GetJsonPatchInputFormatter());
-}).AddNewtonsoftJson();
+}).AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+    options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+});
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -74,6 +80,8 @@ builder.Services.AddScoped<ISurgicalSiteInfectionService, SurgicalSiteInfectionS
 builder.Services.AddScoped<ISurgicalSiteInfectionRepository, SurgicalSiteInfectionRepository>();
 builder.Services.AddScoped<ISurgicalSiteInfectionSkinPrepRepository, SurgicalSiteInfectionSkinPrepRepository>();
 builder.Services.AddScoped<ISurgicalSiteInfectionSkinPrepService, SurgicalSiteInfectionSkinPrepService>();
+builder.Services.AddScoped<IQrtCaseMeetingRepository, QrtCaseMeetingRepository>();
+builder.Services.AddScoped<IQrtCaseMeetingService, QrtCaseMeetingService>();
 
 var app = builder.Build();
 

@@ -49,6 +49,8 @@ namespace UsaWeb.Service.Data
         public virtual DbSet<SurgicalSiteInfection> SurgicalSiteInfections { get; set; }
         public virtual DbSet<NhsnProcedureCategory> NhsnProcedureCategories { get; set; }
         public virtual DbSet<SurgicalSiteInfectionSkinPrep> SurgicalSiteInfectionSkinPreps { get; set; }
+        public virtual DbSet<QrtCaseMeeting> QrtCaseMeetings { get; set; }
+        public virtual DbSet<QrtCaseMeetingOfi> QrtCaseMeetingOfis { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -214,6 +216,17 @@ namespace UsaWeb.Service.Data
             {
                 entity.Property(e => e.CreateTs).HasDefaultValueSql("(getdate())");
                 entity.Property(e => e.SkinPrep).HasComment("Betadine, CHG, Chloraprep, Alcohol");
+            });
+            modelBuilder.Entity<QrtCaseMeeting>(entity =>
+            {
+                entity.Property(e => e.CreateTs).HasDefaultValueSql("(getdate())");
+            });
+
+            modelBuilder.Entity<QrtCaseMeetingOfi>(entity =>
+            {
+                entity.Property(e => e.QrtCaseMeetingOfiId).ValueGeneratedNever();
+                entity.Property(e => e.CreateTs).HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.OfiType).HasComment("comm, doc, system, nursing, provider, dept, other");
             });
 
             OnModelCreatingGeneratedProcedures(modelBuilder);
