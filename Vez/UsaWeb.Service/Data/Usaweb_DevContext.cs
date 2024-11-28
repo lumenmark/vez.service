@@ -224,7 +224,6 @@ namespace UsaWeb.Service.Data
 
             modelBuilder.Entity<QrtCaseMeetingOfi>(entity =>
             {
-                entity.Property(e => e.QrtCaseMeetingOfiId).ValueGeneratedNever();
                 entity.Property(e => e.CreateTs).HasDefaultValueSql("(getdate())");
                 entity.Property(e => e.OfiType).HasComment("comm, doc, system, nursing, provider, dept, other");
             });

@@ -1,37 +1,37 @@
 ﻿using UsaWeb.Service.Models;
 using UsaWeb.Service.ViewModels;
 
-namespace UsaWeb.Service.Features.QrtCaseMeetingFeature.Abstractions
+namespace UsaWeb.Service.Features.QrtCaseMeetingOfiFeature.Abstractions
 {
-    public interface IQrtCaseMeetingRepository
+    public interface IQrtCaseMeetingOfiRepository
     {
         /// <summary>
         /// Gets the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        Task<QrtCaseMeeting> GetAsync(int id);
+        Task<QrtCaseMeetingOfi> GetAsync(int id);
 
         /// <summary>
         /// Gets all asynchronous.
         /// </summary>
-        Task<IEnumerable<QrtCaseMeeting>> GetAllAsync();
+        Task<IEnumerable<QrtCaseMeetingOfi>> GetAllAsync();
 
         /// <summary>
         /// Creates the specified entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        Task<QrtCaseMeeting> Create(QrtCaseMeeting entity);
+        Task<QrtCaseMeetingOfi> Create(QrtCaseMeetingOfi entity);
 
         /// <summary>
         /// Updates the specified entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        Task<QrtCaseMeeting> Update(QrtCaseMeeting entity);
+        Task<QrtCaseMeetingOfi> Update(QrtCaseMeetingOfi entity);
 
         /// <summary>
         /// Deletes the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        Task<QrtCaseMeeting> Delete(QrtCaseMeeting entity);
+        Task Delete(QrtCaseMeetingOfi entity);
     }
 }

@@ -8,6 +8,7 @@ using UsaWeb.Service;
 using UsaWeb.Service.Data;
 using UsaWeb.Service.Features.QrtCaseMeetingFeature.Abstractions;
 using UsaWeb.Service.Features.QrtCaseMeetingFeature.Implementations;
+using UsaWeb.Service.Features.QrtCaseMeetingOfiFeature.Abstractions;
 using UsaWeb.Service.Features.SurgicalSiteInfection.Abstractions;
 using UsaWeb.Service.Features.SurgicalSiteInfection.Implementations;
 using static System.Net.Mime.MediaTypeNames;
@@ -80,6 +81,8 @@ builder.Services.AddScoped<ISurgicalSiteInfectionService, SurgicalSiteInfectionS
 builder.Services.AddScoped<ISurgicalSiteInfectionRepository, SurgicalSiteInfectionRepository>();
 builder.Services.AddScoped<ISurgicalSiteInfectionSkinPrepRepository, SurgicalSiteInfectionSkinPrepRepository>();
 builder.Services.AddScoped<ISurgicalSiteInfectionSkinPrepService, SurgicalSiteInfectionSkinPrepService>();
+builder.Services.AddScoped<IQrtCaseMeetingOfiRepository, QrtCaseMeetingOfiRepository>();
+builder.Services.AddScoped<IQrtCaseMeetingOfiService, QrtCaseMeetingOfiService>();
 builder.Services.AddScoped<IQrtCaseMeetingRepository, QrtCaseMeetingRepository>();
 builder.Services.AddScoped<IQrtCaseMeetingService, QrtCaseMeetingService>();
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UsaWeb.Service.Data;
-using UsaWeb.Service.Features.QrtCaseMeetingFeature.Abstractions;
+using UsaWeb.Service.Features.QrtCaseMeetingOfiFeature.Abstractions;
 using UsaWeb.Service.Models;
 using UsaWeb.Service.ViewModels;
 
@@ -9,7 +9,7 @@ namespace UsaWeb.Service.Features.QrtCaseMeetingFeature.Implementations
     /// <summary>
     /// Qrt Case Meeting Repository.
     /// </summary>
-    public class QrtCaseMeetingRepository(Usaweb_DevContext context) : IQrtCaseMeetingRepository
+    public class QrtCaseMeetingOfiRepository(Usaweb_DevContext context) : IQrtCaseMeetingOfiRepository
     {
         /// <summary>
         /// The context.
@@ -20,31 +20,30 @@ namespace UsaWeb.Service.Features.QrtCaseMeetingFeature.Implementations
         /// Creates the specified entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        public async Task<QrtCaseMeeting> Create(QrtCaseMeeting entity)
+        public async Task<QrtCaseMeetingOfi> Create(QrtCaseMeetingOfi entity)
         {
-            await _context.QrtCaseMeetings.AddAsync(entity);
+            await _context.QrtCaseMeetingOfis.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity;
         }
+
 
         /// <summary>
         /// Deletes the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        public async Task<QrtCaseMeeting> Delete(QrtCaseMeeting entity)
+        public async Task Delete(QrtCaseMeetingOfi entity)
         {
-            entity.DeleteTs = DateTime.UtcNow;
-            _context.Update(entity);
+            _context.Remove(entity);
             await _context.SaveChangesAsync();
-            return entity;
         }
 
         /// <summary>
         /// Gets all asynchronous.
         /// </summary>
-        public async Task<IEnumerable<QrtCaseMeeting>> GetAllAsync()
+        public async Task<IEnumerable<QrtCaseMeetingOfi>> GetAllAsync()
         {
-            return await _context.QrtCaseMeetings.OrderByDescending(_ => _.MeetingDt).ToListAsync();
+            return await _context.QrtCaseMeetingOfis.ToListAsync();
         }
 
         /// <summary>
@@ -52,9 +51,9 @@ namespace UsaWeb.Service.Features.QrtCaseMeetingFeature.Implementations
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public async Task<QrtCaseMeeting> GetAsync(int id)
+        public async Task<QrtCaseMeetingOfi> GetAsync(int id)
         {
-            return await _context.QrtCaseMeetings.FirstOrDefaultAsync(_ => _.QrtCaseMeetingId == id);
+            return await _context.QrtCaseMeetingOfis.FirstOrDefaultAsync(_ => _.QrtCaseMeetingOfiId == id);
         }
 
         /// <summary>
@@ -62,7 +61,7 @@ namespace UsaWeb.Service.Features.QrtCaseMeetingFeature.Implementations
         /// </summary>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        public async Task<QrtCaseMeeting> Update(QrtCaseMeeting entity)
+        public async Task<QrtCaseMeetingOfi> Update(QrtCaseMeetingOfi entity)
         {
             _context.Update(entity);
             await _context.SaveChangesAsync();

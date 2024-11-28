@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using UsaWeb.Service.Features.Extensions;
 using UsaWeb.Service.Features.QrtCaseMeetingFeature.Abstractions;
+using UsaWeb.Service.Features.QrtCaseMeetingOfiFeature.Abstractions;
 using UsaWeb.Service.Models;
 using UsaWeb.Service.ViewModels;
 
@@ -9,21 +10,21 @@ namespace UsaWeb.Service.Features.QrtCaseMeetingFeature.Implementations
     /// <summary>
     /// Qrt Case Meeting Service.
     /// </summary>
-    public class QrtCaseMeetingService(IQrtCaseMeetingRepository qrtCaseMeetingRepository) : IQrtCaseMeetingService
+    public class QrtCaseMeetingOfiService(IQrtCaseMeetingOfiRepository qrtCaseMeetingRepository) : IQrtCaseMeetingOfiService
     {
         /// <summary>
         /// The QRT case meeting repository.
         /// </summary>
-        private readonly IQrtCaseMeetingRepository _qrtCaseMeetingRepository = qrtCaseMeetingRepository;
+        private readonly IQrtCaseMeetingOfiRepository _qrtCaseMeetingOfiRepository = qrtCaseMeetingRepository;
 
         /// <summary>
         /// Creates the specified entity.
         /// </summary>
         /// <param name="entity">The entity.</param>
-        public async Task<QrtCaseMeeting> Create(QrtCaseMeetingVM entity)
+        public async Task<QrtCaseMeetingOfi> Create(QrtCaseMeetingOfiVM entity)
         {
             var qtrCaseMeeting = entity.ToEntity();
-            var createdEntity = await _qrtCaseMeetingRepository.Create(qtrCaseMeeting);
+            var createdEntity = await _qrtCaseMeetingOfiRepository.Create(qtrCaseMeeting);
             return createdEntity;
         }
 
@@ -31,14 +32,15 @@ namespace UsaWeb.Service.Features.QrtCaseMeetingFeature.Implementations
         /// Deletes the specified entity.
         /// </summary>
         /// <param name="id"></param>
-        public async Task<QrtCaseMeeting> Delete(int id)
+        public async Task<QrtCaseMeetingOfi> Delete(int id)
         {
-            var entity = await _qrtCaseMeetingRepository.GetAsync(id);
-            if (!entity.DeleteTs.HasValue)
+            var entity = await _qrtCaseMeetingOfiRepository.GetAsync(id);
+            if (entity == null)
             {
-                await _qrtCaseMeetingRepository.Delete(entity);
+                return null;
             }
 
+            await _qrtCaseMeetingOfiRepository.Delete(entity);
             return entity;
         }
 
@@ -46,19 +48,19 @@ namespace UsaWeb.Service.Features.QrtCaseMeetingFeature.Implementations
         /// Gets the by parameters.
         /// </summary>
         /// <param name="qrtCaseMeetingId">The QRT case meeting identifier.</param>
-        /// <param name="qrtCaseId">The QRT case identifier.</param>
-        public async Task<IEnumerable<QrtCaseMeeting>> GetByParams(int? qrtCaseMeetingId, int? qrtCaseId)
+        /// <param name="qrtCaseMeetingOfiId">The QRT case meeting ofi identifier.</param>
+        public async Task<IEnumerable<QrtCaseMeetingOfi>> GetByParams(int? qrtCaseMeetingId, int? qrtCaseMeetingOfiId)
         {
-            var qrtMeetings = await _qrtCaseMeetingRepository.GetAllAsync();
+            var qrtMeetings = await _qrtCaseMeetingOfiRepository.GetAllAsync();
 
             if (qrtCaseMeetingId.HasValue)
             {
-                qrtMeetings =qrtMeetings.Where(_ => _.QrtCaseMeetingId == qrtCaseMeetingId).ToList();
+                qrtMeetings = qrtMeetings.Where(_ => _.QrtCaseMeetingId == qrtCaseMeetingId).ToList();
             }
 
-            if (qrtCaseId.HasValue)
+            if (qrtCaseMeetingOfiId.HasValue)
             {
-                qrtMeetings = qrtMeetings.Where(_ => _.QrtCaseId == qrtCaseId).ToList();
+                qrtMeetings = qrtMeetings.Where(_ => _.QrtCaseMeetingOfiId == qrtCaseMeetingOfiId).ToList();
             }
 
             return qrtMeetings;
@@ -69,19 +71,19 @@ namespace UsaWeb.Service.Features.QrtCaseMeetingFeature.Implementations
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="patchDoc">The patch document.</param>
-        public async Task<QrtCaseMeeting> Patch(int id, JsonPatchDocument<QrtCaseMeetingVM> patchDoc)
+        public async Task<QrtCaseMeetingOfi> Patch(int id, JsonPatchDocument<QrtCaseMeetingOfiVM> patchDoc)
         {
             ArgumentNullException.ThrowIfNull(patchDoc);
 
-            var entity = await _qrtCaseMeetingRepository.GetAsync(id);
+            var entity = await _qrtCaseMeetingOfiRepository.GetAsync(id);
             if (entity == null)
                 return null;
 
             var model = entity.ToViewModel();
             patchDoc.ApplyTo(model);
 
-            entity.UpdateFromViewModel(model);
-            var updatedEntity = await _qrtCaseMeetingRepository.Update(entity);
+            entity.UpdateEntity(model);
+            var updatedEntity = await _qrtCaseMeetingOfiRepository.Update(entity);
             return updatedEntity;
         }
 
@@ -90,16 +92,16 @@ namespace UsaWeb.Service.Features.QrtCaseMeetingFeature.Implementations
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="id"></param>
-        public async Task<QrtCaseMeeting> Update(QrtCaseMeetingVM entity, int id)
+        public async Task<QrtCaseMeetingOfi> Update(QrtCaseMeetingOfiVM entity, int id)
         {
-            var qrtCaseMeeting = await _qrtCaseMeetingRepository.GetAsync(id);
-            if (qrtCaseMeeting == null)
+            var qrtCaseMeetingOfi = await _qrtCaseMeetingOfiRepository.GetAsync(id);
+            if (qrtCaseMeetingOfi == null)
             {
                 return null;
             }
 
-            qrtCaseMeeting.UpdateFromViewModel(entity);
-            var updatedEntity = await _qrtCaseMeetingRepository.Update(qrtCaseMeeting);
+            qrtCaseMeetingOfi.UpdateEntity(entity);
+            var updatedEntity = await _qrtCaseMeetingOfiRepository.Update(qrtCaseMeetingOfi);
             return updatedEntity;
         }
     }

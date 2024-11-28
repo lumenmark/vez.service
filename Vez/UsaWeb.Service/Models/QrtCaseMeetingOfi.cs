@@ -11,6 +11,7 @@ public partial class QrtCaseMeetingOfi
 {
     [Key]
     [Column("qrtCaseMeetingOfiId")]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int QrtCaseMeetingOfiId { get; set; }
 
     [Column("qrtCaseMeetingId")]

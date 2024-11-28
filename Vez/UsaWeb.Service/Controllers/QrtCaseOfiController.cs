@@ -16,24 +16,24 @@ namespace UsaWeb.Service.Controllers
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-    public class QrtCaseController(IQrtCaseMeetingService service) : ControllerBase
+    public class QrtCaseOfiController(IQrtCaseMeetingOfiService service) : ControllerBase
     {
         /// <summary>
         /// The service.
         /// </summary>
-        private readonly IQrtCaseMeetingService _service = service;
+        private readonly IQrtCaseMeetingOfiService _service = service;
 
         /// <summary>
         /// Gets the QRT case meeting.
         /// </summary>
         /// <param name="qrtCaseMeetingId">The QRT case meeting identifier.</param>
-        /// <param name="qrtCaseId">The QRT case identifier.</param>
-        [HttpGet("/qrt/caseMeeting")]
-        public async Task<IActionResult> GetQrtCaseMeeting(int? qrtCaseMeetingId, int? qrtCaseId)
+        /// <param name="qrtCaseMeetingOfiId">The QRT case meeting ofi identifier.</param>
+        [HttpGet("/qrt/caseMeetingOfi")]
+        public async Task<IActionResult> GetQrtCaseMeeting(int? qrtCaseMeetingId, int? qrtCaseMeetingOfiId)
         {
             try
             {
-                var qrtMeetings = await _service.GetByParams(qrtCaseMeetingId, qrtCaseId);
+                var qrtMeetings = await _service.GetByParams(qrtCaseMeetingId, qrtCaseMeetingOfiId);
                 return Ok(qrtMeetings);
             }
             catch (Exception ex)
@@ -47,8 +47,8 @@ namespace UsaWeb.Service.Controllers
         /// Posts the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
-        [HttpPost("/qrt/caseMeeting")]
-        public async Task<IActionResult> Post(QrtCaseMeetingVM model)
+        [HttpPost("/qrt/caseMeetingOfi")]
+        public async Task<IActionResult> Post(QrtCaseMeetingOfiVM model)
         {
             try
             {
@@ -67,8 +67,8 @@ namespace UsaWeb.Service.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="model">The model.</param>
-        [HttpPut("/qrt/caseMeeting/{id}")]
-        public async Task<IActionResult> Put(int id, QrtCaseMeetingVM model)
+        [HttpPut("/qrt/caseMeetingOfi/{id}")]
+        public async Task<IActionResult> Put(int id, QrtCaseMeetingOfiVM model)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace UsaWeb.Service.Controllers
             }
         }
 
-        [HttpDelete("/qrt/caseMeeting/{id}")]
+        [HttpDelete("/qrt/caseMeetingOfi/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -97,7 +97,7 @@ namespace UsaWeb.Service.Controllers
                 {
                     return NotFound();
                 }
-                return Ok(result);
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -111,8 +111,8 @@ namespace UsaWeb.Service.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="patchDoc">The patch document.</param>
-        [HttpPatch("/qrt/caseMeeting/{id}")]
-        public async Task<IActionResult> Patch(int id, JsonPatchDocument<QrtCaseMeetingVM> patchDoc)
+        [HttpPatch("/qrt/caseMeetingOfi/{id}")]
+        public async Task<IActionResult> Patch(int id, JsonPatchDocument<QrtCaseMeetingOfiVM> patchDoc)
         {
             try
             {
