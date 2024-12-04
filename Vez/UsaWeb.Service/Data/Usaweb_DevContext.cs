@@ -166,8 +166,9 @@ namespace UsaWeb.Service.Data
 
             modelBuilder.Entity<QrtCaseExtended>(entity =>
             {
+                entity.Property(e => e.CreateTs).HasDefaultValueSql("(getdate())");
                 entity.Property(e => e.Status)
-                    .HasDefaultValueSql("('NEW')")
+                    .HasDefaultValue("NEW")
                     .HasComment("NEW, IN_SCREEN, ESCALATED, COMPLETE");
             });
 

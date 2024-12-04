@@ -65,5 +65,7 @@ namespace UsaWeb.Service.Models
         public bool? Outcome_IsLeadershipCouncilReview { get; set; }
         [Unicode(false)]
         public string Outcome_Note { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime? CreateTs { get; set; }
     }
 }
