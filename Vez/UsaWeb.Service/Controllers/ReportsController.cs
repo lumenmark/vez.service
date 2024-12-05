@@ -69,11 +69,11 @@ namespace UsaWeb.Service.Controllers
         /// <param name="startDate">The start date.</param>
         /// <param name="endDate">The end date.</param>
         [HttpGet("/qrt/reportCasesCompleted")]
-        public async Task<IActionResult> GetReportCasesCompleted(DateTime? startDate, DateTime? endDate)
+        public async Task<IActionResult> GetReportCasesCompleted(DateTime? dateStart, DateTime? dateEnd)
         {
             try
             {
-                var result = await _reportRepository.GetReportCasesCompleted(startDate, endDate);
+                var result = await _reportRepository.GetReportCasesCompleted(dateStart, dateEnd);
                 return Ok(result);
             }
             catch (Exception ex)
